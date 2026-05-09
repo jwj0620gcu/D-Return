@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>D-return — 폐업 기업 데이터로 만드는 도메인 특화 AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink:        "#141413",
+            charcoal:   "#ECE7E1",
+            lifted:     "#FFFFFF",
+            field:      "#FEF8F3",
+            border:     "#E8E2DA",
+            border2:    "#D1CDC7",
+            white1:     "#141413",
+            white2:     "#3a3a39",
+            mute:       "#7a7a78",
+            dim:        "#A6A29C",
+            signal:     "#F37338",
+          },
+          fontFamily: {
+            sans: ['"Noto Sans KR"', "Pretendard", "system-ui", "sans-serif"],
+            mono: ['"JetBrains Mono"', '"SF Mono"', "monospace"],
+          },
+          letterSpacing: {
+            tightd: "-0.02em",
+            up:     "0.04em",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html, body { background: #F3F0EE; color: #3a3a39; }
+    body { font-family: "Noto Sans KR", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { letter-spacing: -0.02em; }
+    .eyebrow { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #7a7a78; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-in { opacity: 1; transform: none; }
+    /* Hero dot grid */
+    .dot-grid {
+      background-image: radial-gradient(circle, rgba(20,20,19,0.10) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
+    }
+    .hero-glow {
+      background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(243,115,56,0.10) 0%, rgba(243,240,238,0) 70%);
+    }
+    /* Hero collage */
+    .collage { position: relative; width: 100%; aspect-ratio: 1 / 1.05; }
+    .collage .card {
+      position: absolute; border-radius: 18px; overflow: hidden;
+      background: #FFFFFF; border: 1px solid rgba(20,20,19,0.06);
+      box-shadow: 0 24px 60px rgba(20,20,19,0.18), 0 4px 12px rgba(20,20,19,0.08);
+      transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+      will-change: transform;
+    }
+    .collage .card:hover { z-index: 99; transform: translateY(-6px) rotate(0deg) scale(1.02); box-shadow: 0 32px 80px rgba(20,20,19,0.22), 0 0 0 1px rgba(243,115,56,0.40); }
+    .collage .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .collage .card.c-slack  { top: 0%;  left: 4%;   width: 68%; aspect-ratio: 1090/810;  transform: rotate(-3deg); z-index: 3; animation: float1 7s ease-in-out infinite; }
+    .collage .card.c-notion { top: 38%; right: 0%;  width: 62%; aspect-ratio: 980/525;   transform: rotate(4deg);  z-index: 2; animation: float2 8s ease-in-out infinite; }
+    .collage .card.c-gmail  { top: 14%; right: -2%; width: 44%; aspect-ratio: 525/375;   transform: rotate(6deg);  z-index: 4; animation: float3 6.5s ease-in-out infinite; }
+    .collage .card.c-jira   { bottom: 0%; left: 0%; width: 50%; aspect-ratio: 1/1;       transform: rotate(-5deg); z-index: 5; animation: float4 7.5s ease-in-out infinite; }
+    @keyframes float1 { 0%,100% { transform: rotate(-3deg) translateY(0); } 50% { transform: rotate(-3deg) translateY(-8px); } }
+    @keyframes float2 { 0%,100% { transform: rotate(4deg)  translateY(0); } 50% { transform: rotate(4deg)  translateY(8px);  } }
+    @keyframes float3 { 0%,100% { transform: rotate(6deg)  translateY(0); } 50% { transform: rotate(6deg)  translateY(-10px); } }
+    @keyframes float4 { 0%,100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(-5deg) translateY(6px);  } }
+    .collage .card:hover { animation-play-state: paused; }
+    .collage-orb {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      width: 80%; height: 70%; border-radius: 999px;
+      background: radial-gradient(ellipse at center, rgba(243,115,56,0.18) 0%, rgba(243,115,56,0) 65%);
+      pointer-events: none; z-index: 0; filter: blur(20px);
+    }
+    .collage-tag {
+      position: absolute; right: 8px; top: -28px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 999px;
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(20,20,19,0.08);
+      font-family: "JetBrains Mono", monospace; font-size: 11px; color: #3a3a39; letter-spacing: 0.04em;
+      z-index: 10;
+    }
+    .collage-tag::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: #F37338; box-shadow: 0 0 10px #F37338; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .cta-glow:hover { box-shadow: 0 0 30px rgba(243,115,56,0.30); transform: scale(1.03); }
+    .cta-glow { transition: transform .2s ease, box-shadow .2s ease; }
+    .ring-signal:focus { outline: none; border-color: #F37338 !important; box-shadow: 0 0 0 4px rgba(243,115,56,0.15); }
+    .vp-card { transition: border-color .25s ease, transform .25s ease, background .25s ease, box-shadow .25s ease; }
+    .vp-card:hover { border-color: #F37338 !important; background: rgba(243,115,56,0.05); transform: translateY(-2px); box-shadow: rgba(20,20,19,0.06) 0 16px 40px 0; border-radius: 24px; }
+    .check input:checked + .box { background: #F37338; border-color: #F37338; }
+    .check input:checked + .box svg { display: block; }
+    .check .box svg { display: none; }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0px 1000px #FDECD8 inset !important;
+      box-shadow: 0 0 0px 1000px #FDECD8 inset !important;
+      -webkit-text-fill-color: #3a3a39 !important;
+      border-color: #D1CDC7 !important;
+    }
+  </style>
+
+  <script src="image-slot.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: rgb(243, 240, 238); font-family: &quot;Noto Sans KR&quot;">
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+
+
+const { useEffect, useRef, useState } = React;
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <div style={{padding:"60px 40px",color:"#3a3a39",fontFamily:"Noto Sans KR",fontSize:18}}>
+    <strong style={{fontFamily:"JetBrains Mono, monospace"}}>D<span style={{color:"#F37338"}}>-</span>return</strong>{" "}— 프로젝트 초기화 완료
+  </div>
+);
+
+</script>
+</body>
+</html>
