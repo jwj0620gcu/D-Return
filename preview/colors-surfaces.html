@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Surface Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 24px; margin: 0; }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .swatch { display: flex; flex-direction: column; gap: 6px; }
+  .chip { height: 78px; border-radius: 14px; border: 1px solid var(--border-soft); }
+  .name { font-weight: 500; font-size: 13px; letter-spacing: -0.02em; line-height: 1; margin-top: 2px; }
+  .hex { font-size: 11px; color: var(--fg-muted); font-feature-settings: "tnum"; line-height: 1.3; }
+</style>
+</head><body>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#F3F0EE"></div><div class="name">Canvas Cream</div><div class="hex">#F3F0EE · default page bg</div></div>
+    <div class="swatch"><div class="chip" style="background:#FCFBFA"></div><div class="name">Lifted Cream</div><div class="hex">#FCFBFA · raised surface</div></div>
+    <div class="swatch"><div class="chip" style="background:#FFFFFF"></div><div class="name">White</div><div class="hex">#FFFFFF · nav pill, satellite</div></div>
+    <div class="swatch"><div class="chip" style="background:#F4F4F4"></div><div class="name">Soft Bone</div><div class="hex">#F4F4F4 · alt surface</div></div>
+  </div>
+</body></html>

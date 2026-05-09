@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Accent Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 24px; margin: 0; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .swatch { display: flex; flex-direction: column; gap: 6px; }
+  .chip { height: 78px; border-radius: 14px; border: 1px solid var(--border-soft); }
+  .name { font-weight: 500; font-size: 13px; letter-spacing: -0.02em; line-height: 1; margin-top: 2px; }
+  .hex { font-size: 11px; color: var(--fg-muted); font-feature-settings: "tnum"; line-height: 1.3; }
+  .warn { display:inline-block; margin-top:14px; font-size:11px; padding:5px 10px; border-radius: 999px; background:#fff; border:1px solid var(--border-soft); color: var(--fg-muted); }
+</style>
+</head><body>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#CF4500"></div><div class="name">Signal Orange</div><div class="hex">#CF4500 · consent only</div></div>
+    <div class="swatch"><div class="chip" style="background:#F37338"></div><div class="name">Light Signal Orange</div><div class="hex">#F37338 · orbital arcs</div></div>
+    <div class="swatch"><div class="chip" style="background:#9A3A0A"></div><div class="name">Clay Brown</div><div class="hex">#9A3A0A · link-button alt</div></div>
+  </div>
+  <span class="warn">Reserve Signal Orange for cookie/legal CTAs — never marketing</span>
+</body></html>
