@@ -1,0 +1,241 @@
+/* =============================================================
+   Mastercard Design System — Colors & Type Tokens
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,400;0,450;0,500;0,700;1,400;1,500&display=swap');
+
+:root {
+  /* ------------------------------------------------------------
+     COLOR — Brand
+     ------------------------------------------------------------ */
+  --mc-red:               #EB001B;   /* logo only */
+  --mc-yellow:            #F79E1B;   /* logo only */
+  --mc-ink:               #141413;   /* warm near-black */
+
+  /* COLOR — Accent / Signal */
+  --mc-signal-orange:     #CF4500;   /* consent / legal */
+  --mc-light-orange:      #F37338;   /* orbital arcs, indicators */
+  --mc-clay:              #9A3A0A;   /* secondary link buttons */
+
+  /* COLOR — Surface */
+  --mc-canvas:            #F3F0EE;   /* default page bg */
+  --mc-canvas-lifted:     #FCFBFA;   /* nested raised surface */
+  --mc-white:             #FFFFFF;
+  --mc-bone:              #F4F4F4;
+  --mc-cream-whisper:     #E8E2DA;   /* ghost-watermark headline */
+
+  /* COLOR — Neutrals / Text */
+  --mc-charcoal:          #262627;
+  --mc-slate:             #696969;
+  --mc-granite:           #555555;
+  --mc-graphite:          #565656;
+  --mc-dust:              #D1CDC7;   /* whisper / disabled */
+
+  /* COLOR — Semantic */
+  --mc-link:              #3860BE;
+
+  /* ------------------------------------------------------------
+     SEMANTIC ALIASES
+     ------------------------------------------------------------ */
+  --bg:                   var(--mc-canvas);
+  --bg-lifted:            var(--mc-canvas-lifted);
+  --bg-inverse:           var(--mc-ink);
+
+  --fg:                   var(--mc-ink);
+  --fg-muted:             var(--mc-slate);
+  --fg-soft:              var(--mc-granite);
+  --fg-whisper:           var(--mc-dust);
+  --fg-on-ink:            var(--mc-canvas);
+
+  --accent:               var(--mc-signal-orange);
+  --accent-soft:          var(--mc-light-orange);
+  --link:                 var(--mc-link);
+
+  --border-strong:        var(--mc-ink);
+  --border-soft:          rgba(20, 20, 19, 0.12);
+  --border-on-ink:        rgba(255, 255, 255, 0.40);
+
+  /* ------------------------------------------------------------
+     RADII — small / medium-large / full-pill (no in-between)
+     ------------------------------------------------------------ */
+  --radius-xs:            3px;
+  --radius-sm:            6px;
+  --radius-btn:           20px;   /* primary + secondary CTAs */
+  --radius-pill-sm:       24px;   /* consent buttons */
+  --radius-hero:          40px;   /* hero media, large containers */
+  --radius-full:          999px;  /* nav, chips, pill carousels */
+  --radius-circle:        50%;
+
+  /* ------------------------------------------------------------
+     SPACING — base 8 scale
+     ------------------------------------------------------------ */
+  --space-1:              8px;
+  --space-2:              16px;
+  --space-3:              24px;
+  --space-4:              32px;
+  --space-5:              48px;
+  --space-6:              64px;
+  --space-7:              96px;
+  --space-8:              128px;
+
+  /* ------------------------------------------------------------
+     ELEVATION — atmospheric, never directional
+     ------------------------------------------------------------ */
+  --shadow-0:             none;
+  --shadow-1:             rgba(0, 0, 0, 0.04) 0px 4px 24px 0px;          /* nav pill */
+  --shadow-2:             rgba(0, 0, 0, 0.08) 0px 24px 48px 0px;         /* hero, cards */
+  --shadow-3:             rgba(0, 0, 0, 0.25) 0px 70px 110px 0px;        /* dramatic */
+
+  /* ------------------------------------------------------------
+     TYPOGRAPHY
+     ------------------------------------------------------------ */
+  --font-sans:            "MarkForMC", "Sofia Sans", "Sofia Sans Variable", Arial, sans-serif;
+  --font-official:        "MarkOffcForMC", "Sofia Sans", Arial, sans-serif;
+
+  /* Type scale (px values) */
+  --fs-h1:                64px;
+  --fs-h2:                36px;
+  --fs-h3:                24px;
+  --fs-h4:                14px;
+  --fs-eyebrow:           14px;
+  --fs-body:              16px;
+  --fs-link:              16px;
+  --fs-footer-link:       14px;
+  --fs-small:             12px;
+
+  /* Weights — 450 for body is signature */
+  --fw-body:              450;
+  --fw-headline:          500;
+  --fw-bold:              700;
+  --fw-regular:           400;
+
+  /* Tracking — tight on display, open on eyebrow */
+  --track-display:        -0.02em;     /* -2% — headlines */
+  --track-link:           -0.03em;     /* -3% — nav/buttons */
+  --track-eyebrow:        0.04em;      /* +4% — uppercase eyebrow */
+  --track-normal:         0;
+}
+
+/* =============================================================
+   BASE — apply tokens
+   ============================================================= */
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: var(--fw-body);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  letter-spacing: var(--track-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* =============================================================
+   SEMANTIC TYPE — h1 / h2 / h3 / eyebrow / body / link / button
+   ============================================================= */
+
+h1, .mc-h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-headline);
+  line-height: 1;                    /* tight 1:1 */
+  letter-spacing: var(--track-display);
+  color: var(--fg);
+  margin: 0;
+}
+
+h2, .mc-h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-headline);
+  line-height: 1.222;                /* 44/36 */
+  letter-spacing: var(--track-display);
+  color: var(--fg);
+  margin: 0;
+}
+
+h3, .mc-h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-headline);
+  line-height: 1.2;
+  letter-spacing: var(--track-display);
+  color: var(--fg);
+  margin: 0;
+}
+
+h4, .mc-h4 {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-bold);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.mc-eyebrow {
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.mc-eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+}
+
+.mc-ghost {
+  /* cream-on-cream watermark headline */
+  font-size: clamp(72px, 9vw, 128px);
+  font-weight: var(--fw-headline);
+  letter-spacing: var(--track-display);
+  line-height: 1;
+  color: var(--mc-cream-whisper);
+}
+
+p, .mc-body {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  line-height: 1.4;                  /* 22.4/16 */
+  color: var(--fg);
+  margin: 0;
+}
+
+.mc-body--muted { color: var(--fg-muted); }
+
+a, .mc-link {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: var(--fw-body);
+}
+
+.mc-nav-link,
+.mc-button-label {
+  font-size: var(--fs-link);
+  font-weight: var(--fw-headline);
+  line-height: 1;
+  letter-spacing: var(--track-link);
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.mc-footer-col-header {
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.mc-footer-link {
+  font-size: var(--fs-footer-link);
+  font-weight: var(--fw-body);
+  line-height: 1.4;
+  color: var(--mc-white);
+  text-decoration: none;
+}
