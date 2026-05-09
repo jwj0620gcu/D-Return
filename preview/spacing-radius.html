@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Radius Scale</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 24px; margin: 0; }
+  .row { display: flex; gap: 14px; align-items: flex-end; flex-wrap: nowrap; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 0 0 auto; }
+  .box { width: 92px; height: 68px; background: #141413; }
+  .pill { width: 132px; height: 56px; background: #141413; }
+  .circle { width: 68px; height: 68px; background: #141413; }
+  .name { font-size: 11px; font-weight: 500; letter-spacing: -0.02em; }
+  .hex { font-size: 10px; color: var(--fg-muted); font-feature-settings: "tnum"; }
+  .gap { font-size: 10px; color: var(--fg-whisper); padding: 0 6px; align-self: center; padding-bottom: 30px;}
+</style>
+</head><body>
+  <div class="row">
+    <div class="item"><div class="box" style="border-radius:6px"></div><div class="name">6px</div><div class="hex">micro-chip</div></div>
+    <div class="gap">— gap —</div>
+    <div class="item"><div class="box" style="border-radius:20px"></div><div class="name">20px</div><div class="hex">buttons</div></div>
+    <div class="item"><div class="box" style="border-radius:24px"></div><div class="name">24px</div><div class="hex">consent</div></div>
+    <div class="item"><div class="box" style="border-radius:40px"></div><div class="name">40px</div><div class="hex">hero / large</div></div>
+    <div class="gap">— gap —</div>
+    <div class="item"><div class="pill" style="border-radius:999px"></div><div class="name">999px</div><div class="hex">pill / nav</div></div>
+    <div class="item"><div class="circle" style="border-radius:50%"></div><div class="name">50%</div><div class="hex">portrait</div></div>
+  </div>
+</body></html>

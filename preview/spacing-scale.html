@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Spacing Scale</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 24px; margin: 0; }
+  .row { display: flex; gap: 14px; align-items: flex-end; }
+  .item { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .bar { background: #141413; height: 14px; border-radius: 4px; }
+  .name { font-size: 11px; font-weight: 500; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
+  .lbl { font-size: 10px; color: var(--fg-muted); }
+</style>
+</head><body>
+  <div class="row">
+    <div class="item"><div class="bar" style="width:8px"></div><div class="name">8</div><div class="lbl">--space-1</div></div>
+    <div class="item"><div class="bar" style="width:16px"></div><div class="name">16</div><div class="lbl">--space-2</div></div>
+    <div class="item"><div class="bar" style="width:24px"></div><div class="name">24</div><div class="lbl">--space-3</div></div>
+    <div class="item"><div class="bar" style="width:32px"></div><div class="name">32</div><div class="lbl">--space-4</div></div>
+    <div class="item"><div class="bar" style="width:48px"></div><div class="name">48</div><div class="lbl">--space-5</div></div>
+    <div class="item"><div class="bar" style="width:64px"></div><div class="name">64</div><div class="lbl">--space-6</div></div>
+    <div class="item"><div class="bar" style="width:96px"></div><div class="name">96</div><div class="lbl">--space-7</div></div>
+    <div class="item"><div class="bar" style="width:128px"></div><div class="name">128</div><div class="lbl">--space-8</div></div>
+  </div>
+</body></html>

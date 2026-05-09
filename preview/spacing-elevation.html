@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Elevation</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 32px 24px; margin: 0; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: end; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .card { width: 140px; height: 80px; background: #FFFFFF; border-radius: 22px; }
+  .l1 { box-shadow: rgba(0,0,0,0.04) 0 4px 24px 0; }
+  .l2 { box-shadow: rgba(0,0,0,0.08) 0 24px 48px 0; }
+  .l3 { box-shadow: rgba(0,0,0,0.25) 0 70px 110px 0; }
+  .name { font-size: 12px; font-weight: 500; letter-spacing: -0.02em; }
+  .lbl { font-size: 10px; color: var(--fg-muted); text-align: center; }
+</style>
+</head><body>
+  <div class="row">
+    <div class="item"><div class="card l1"></div><div class="name">L1 · 4 / 24 / 4%</div><div class="lbl">nav pill</div></div>
+    <div class="item"><div class="card l2"></div><div class="name">L2 · 24 / 48 / 8%</div><div class="lbl">hero, cards</div></div>
+    <div class="item"><div class="card l3"></div><div class="name">L3 · 70 / 110 / 25%</div><div class="lbl">rare · feature</div></div>
+  </div>
+</body></html>
