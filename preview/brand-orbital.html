@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Orbital Arc Motif</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 12px; margin: 0; }
+  svg { display: block; width: 100%; height: 200px; }
+  .a { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg,#F2A24E,#CF4500); }
+  .b { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg,#F4D8B8,#9A3A0A); }
+  .wrap { position: relative; height: 200px; }
+  .wrap .a { position: absolute; left: 4%; top: 50%; transform: translateY(-50%); }
+  .wrap .b { position: absolute; right: 4%; top: 30%; transform: translateY(-50%); }
+  .wrap svg { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head><body>
+  <div class="wrap">
+    <div class="a"></div>
+    <div class="b"></div>
+    <svg viewBox="0 0 700 200" preserveAspectRatio="none">
+      <path d="M115 100 C 240 30, 460 170, 580 75" fill="none" stroke="#F37338" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </div>
+</body></html>
