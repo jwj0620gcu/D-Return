@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Weight 450 — body weight</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 28px; margin: 0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .col { display: flex; flex-direction: column; gap: 8px; }
+  .label { font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; }
+  .sample { font-size: 18px; line-height: 1.35; max-width: 220px; }
+  .w400 { font-weight: 400; }
+  .w450 { font-weight: 450; }
+  .w500 { font-weight: 500; }
+  .ring { padding: 4px 10px; border-radius: 999px; background:#fff; border:1px solid var(--border-soft); display:inline-block; font-size: 10px; }
+</style>
+</head><body>
+  <div class="grid">
+    <div class="col">
+      <span class="label">400 · regular</span>
+      <p class="sample w400">Every checkout, every currency. Trusted everywhere.</p>
+    </div>
+    <div class="col">
+      <span class="label">450 · body <span class="ring">signature</span></span>
+      <p class="sample w450">Every checkout, every currency. Trusted everywhere.</p>
+    </div>
+    <div class="col">
+      <span class="label">500 · headline</span>
+      <p class="sample w500">Every checkout, every currency. Trusted everywhere.</p>
+    </div>
+  </div>
+</body></html>

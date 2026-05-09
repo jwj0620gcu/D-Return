@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Display Type</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 28px; margin: 0; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .item { display: grid; grid-template-columns: 90px 1fr; gap: 18px; align-items: baseline; }
+  .meta { font-size: 11px; color: var(--fg-muted); font-feature-settings: "tnum"; }
+  .meta b { display: block; font-weight: 700; color: var(--fg); margin-bottom: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+</style>
+</head><body>
+  <div class="stack">
+    <div class="item">
+      <div class="meta"><b>H1</b>64 / 500<br/>−2% track<br/>1:1 line</div>
+      <h1 style="font-size:56px">Priceless possibilities</h1>
+    </div>
+    <div class="item">
+      <div class="meta"><b>H2</b>36 / 500<br/>−2% track<br/>1.22 line</div>
+      <h2>Trusted at every checkout, everywhere.</h2>
+    </div>
+    <div class="item">
+      <div class="meta"><b>H3</b>24 / 500<br/>−2% track</div>
+      <h3>Card services for every business</h3>
+    </div>
+  </div>
+</body></html>

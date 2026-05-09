@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Body & UI Type</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 28px; margin: 0; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .item { display: grid; grid-template-columns: 90px 1fr; gap: 18px; align-items: baseline; }
+  .meta { font-size: 11px; color: var(--fg-muted); font-feature-settings: "tnum"; }
+  .meta b { display: block; font-weight: 700; color: var(--fg); margin-bottom: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+</style>
+</head><body>
+  <div class="stack">
+    <div class="item">
+      <div class="meta"><b>Body</b>16 / 450<br/>1.4 line</div>
+      <p style="max-width: 460px;">Every checkout, every continent, every currency — the
+      network behind the moments that matter, working quietly in the background of your day.</p>
+    </div>
+    <div class="item">
+      <div class="meta"><b>Nav · Btn</b>16 / 500<br/>−3% track</div>
+      <span class="mc-nav-link">For you · For business · For innovators</span>
+    </div>
+    <div class="item">
+      <div class="meta"><b>Eyebrow</b>14 / 700<br/>+4% track</div>
+      <span class="mc-eyebrow">Services</span>
+    </div>
+    <div class="item">
+      <div class="meta"><b>Link</b>16 / 450<br/>blue, underline</div>
+      <a href="#">Read the full report</a>
+    </div>
+  </div>
+</body></html>
