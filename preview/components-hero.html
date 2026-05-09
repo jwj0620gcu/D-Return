@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Hero Media Frame</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 24px; margin: 0; }
+  .hero {
+    position: relative; height: 240px; border-radius: 40px;
+    background: #2B2B2B; overflow: hidden;
+    background-image:
+      radial-gradient(circle at 20% 30%, #4a4a4a 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, #3a3a3a 0%, transparent 50%),
+      linear-gradient(135deg, #2B2B2B 0%, #141413 100%);
+  }
+  .play {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 76px; height: 76px; border-radius: 50%;
+    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.4);
+    display: inline-flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(2px);
+  }
+  .play svg { width: 26px; height: 26px; margin-left: 4px; }
+  .lbl { position: absolute; left: 36px; bottom: 28px; color: #fff; font: 500 18px/1 var(--font-sans); letter-spacing: -0.02em;}
+</style>
+</head><body>
+  <div class="hero">
+    <span class="lbl">A film about possibility</span>
+    <div class="play">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+  </div>
+</body></html>

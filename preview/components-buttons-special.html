@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<title>Buttons — Consent & Satellite</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body { padding: 36px 28px; margin: 0; }
+  .row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .btn-consent {
+    background: #CF4500; color: #fff;
+    border: 0; border-radius: 24px; padding: 10px 30px;
+    font: 400 13px/1 var(--font-sans);
+    letter-spacing: 0.01em; cursor: pointer;
+  }
+  .btn-clay {
+    background: transparent; color: #9A3A0A;
+    border: 0; padding: 10px 14px;
+    font: 500 13px/1 var(--font-sans);
+    text-decoration: underline; text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .satellite {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #FFFFFF; border: 0; display: inline-flex;
+    align-items: center; justify-content: center;
+    box-shadow: rgba(0,0,0,0.08) 0 8px 24px 0;
+    cursor: pointer;
+  }
+  .satellite svg { width: 22px; height: 22px; }
+  .lbl { display: block; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); font-weight: 700; margin-bottom: 12px; }
+</style>
+</head><body>
+  <span class="lbl">Consent only · Satellite circle</span>
+  <div class="row">
+    <button class="btn-consent">Accept all</button>
+    <button class="btn-clay">Cookie details</button>
+    <button class="satellite" aria-label="Open">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#141413" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+    </button>
+  </div>
+</body></html>
