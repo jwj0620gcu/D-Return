@@ -123,11 +123,101 @@
   <script type="text/babel" data-presets="react">
 
 
-const { useEffect, useRef, useState } = React;
+
+// ------- Reveal -------
+const Reveal = ({ children, delay = 0, className = "", as: Tag = "div" }) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {el.classList.add("is-in");io.disconnect();}
+    }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <Tag ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>{children}</Tag>;
+};
+
+// ------- CountUp -------
+const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+const CountUp = ({ to, suffix = "", duration = 1800, format = (n) => n.toLocaleString("ko-KR"), className = "" }) => {
+  const ref = useRef(null);
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const el = ref.current;if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        setVal(Math.round(easeOutExpo(t) * to));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to, duration]);
+  return <span ref={ref} className={className}>{format(val)}{suffix}</span>;
+};
+
+// ------- Logo -------
+const Brand = ({ size = 18 }) =>
+<span className="font-mono font-semibold text-ink tracking-tight" style={{ fontSize: size, letterSpacing: "-0.02em" }}>
+      D<span className="text-signal">-</span>return
+    </span>;
+
+
+// ------- Icons (lucide-style, monoline) -------
+const I = (path) => (props) =>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+strokeLinecap="round" strokeLinejoin="round" {...props}>{path}</svg>;
+
+const IconArrowDown = I(<><path d="M12 5v14" /><path d="m5 12 7 7 7-7" /></>);
+const IconArrowRight = I(<><path d="M5 12h14" /><path d="m13 5 7 7-7 7" /></>);
+const IconCheck = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="#F37338" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="m5 12 5 5 9-12" /></svg>;
+const IconMessage = I(<><path d="M21 15a3 3 0 0 1-3 3H8l-5 4V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9z" /><path d="M8 10h8M8 14h5" /></>);
+const IconShield = I(<><path d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3z" /><path d="m9 12 2 2 4-4" /></>);
+const IconBrain = I(<><path d="M9 4a3 3 0 0 0-3 3v.5a3 3 0 0 0-2 5A3 3 0 0 0 6 17v.5a3 3 0 0 0 6 0V4.5A2.5 2.5 0 0 0 9 4z" /><path d="M15 4a3 3 0 0 1 3 3v.5a3 3 0 0 1 2 5A3 3 0 0 1 18 17v.5a3 3 0 0 1-6 0" /></>);
+
+// ------- Source brand glyphs (monochrome) -------
+const SlackG = (p) => <svg viewBox="0 0 24 24" {...p}><g fill="currentColor"><path d="M5 15a1.5 1.5 0 1 1-1.5-1.5H5V15zm.75 0a1.5 1.5 0 1 1 3 0v3.5a1.5 1.5 0 1 1-3 0V15z" /><path d="M9 5a1.5 1.5 0 1 1 1.5-1.5V5H9zm0 .75a1.5 1.5 0 1 1 0 3H5.5a1.5 1.5 0 1 1 0-3H9z" /><path d="M19 9a1.5 1.5 0 1 1 1.5 1.5H19V9zm-.75 0a1.5 1.5 0 1 1-3 0V5.5a1.5 1.5 0 1 1 3 0V9z" /><path d="M15 19a1.5 1.5 0 1 1-1.5 1.5V19H15zm0-.75a1.5 1.5 0 1 1 0-3h3.5a1.5 1.5 0 1 1 0 3H15z" /></g></svg>;
+const NotionG = (p) => <svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M4.6 4.4c.6.5 1 .5 2.1.4l9.7-.6c.2 0 0-.2-.1-.3L14.7 2.7c-.4-.3-.8-.5-1.6-.4L4 3c-.4 0-.4.2-.3.4l.9 1zM5.3 6.7v10c0 .5.3.8.9.8l11-.6c.6 0 .8-.4.8-.9V5.6c0-.5-.2-.7-.6-.7L5.8 5.5c-.5 0-.6.3-.6.7v.5zm10.6.7c.1.4-.1.8-.5.8l-.5.1V16c0 .5-.3.8-.9.8l-1 .1c-.5 0-.7-.2-1-.6l-2.6-4v3.9c0 .4-.2.7-.7.8l-.8.1c-.4 0-.6-.2-.6-.7V8.4c0-.4.2-.6.6-.6l1.4-.1c.4 0 .6.1.9.5l3 4.6V8.5l-.8 0c-.4 0-.4-.4-.3-.7l1.5-.1 1.7-.1.1.0z" /></svg>;
+const GmailG = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" {...p}><rect x="2.5" y="5" width="19" height="14" rx="2.5" /><path d="m3 6.5 9 6.8 9-6.8" /></svg>;
+const DriveG = (p) => <svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M9.4 3 3 14.5l3 5 6.4-11.5L9.4 3zm5.2 0L21 14.5l-3 5h-7l3-5L14.6 3zM4 16l-1 3 3 0L13 16H4z" /></svg>;
+const JiraG = (p) => <svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M11.5 2.4 12 1.9l.5.5 9.1 9.1a1 1 0 0 1 0 1.5l-9.1 9.1-.5.5-.5-.5L9.5 20l5.4-5.4a4 4 0 0 0 0-5.6L11.5 5.6l-.6-.6.6-.6L9.4 2.2l2.1.2zM5.5 14a4 4 0 0 0 5.6 0l1.5-1.6L7.5 7.4 2.3 12.6a1 1 0 0 0 0 1.5L5.5 17l1-1L5.5 14.6a1 1 0 0 1 0-.6z" /></svg>;
+
+const SOURCES = [
+{ name: "Slack", logo: "images/slack%20logo2.png" },
+{ name: "Notion", logo: "images/notion-logo.png" },
+{ name: "Gmail", logo: "images/gmail-logo.png" },
+{ name: "Google Drive", logo: "images/drive-logo.png", size: 168 },
+{ name: "Jira", logo: "images/jira-logo.png" },
+{ name: "GitHub", logo: "images/github-logo.png" }];
+
+
+// ------- Buttons -------
+const PrimaryCTA = ({ children, onClick, type = "button", className = "", full = false }) =>
+<button type={type} onClick={onClick}
+className={`cta-glow inline-flex items-center justify-center gap-2 rounded-[20px] bg-signal text-white font-semibold whitespace-nowrap ${full ? "w-full py-3.5 sm:py-4 text-[15px] sm:text-[16px]" : "px-6 sm:px-8 py-3 sm:py-3.5 text-[15px] sm:text-[16px]"} ${className}`}
+style={{ letterSpacing: "-0.02em" }}>
+      {children}
+    </button>;
+
+const SecondaryCTA = ({ children, onClick, className = "" }) =>
+<button onClick={onClick}
+className={`inline-flex items-center gap-2 rounded-[20px] bg-transparent text-ink border border-[#D1CDC7] hover:border-ink hover:bg-white px-8 py-3.5 text-[15px] font-medium transition whitespace-nowrap ${className}`}
+style={{ letterSpacing: "-0.02em" }}>
+      {children}
+    </button>;
+
+
+// ------- Hero -------
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <div style={{padding:"60px 40px",color:"#3a3a39",fontFamily:"Noto Sans KR",fontSize:18}}>
-    <strong style={{fontFamily:"JetBrains Mono, monospace"}}>D<span style={{color:"#F37338"}}>-</span>return</strong>{" "}— 프로젝트 초기화 완료
+  <div style={{padding:"60px 40px"}}>
+    <Brand size={24} /> — 유틸리티 컴포넌트 준비 완료
   </div>
 );
 
