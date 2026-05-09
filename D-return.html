@@ -239,7 +239,7 @@ const Hero = ({ onCTA }) =>
           <div>
             <Reveal delay={120}>
               <h1 className="display text-white1 font-bold mt-4 sm:mt-6 lg:mt-7 text-[28px] leading-[1.2] sm:text-[36px] sm:leading-[1.15] md:text-[48px] md:leading-[1.08] lg:text-[58px] lg:leading-[1.05]">
-                <span className="block">실제 업무 맥락이 담긴 데이터를,</span>
+                <span className="block">실제 업무 의사결정이 담긴 데이터를,</span>
                 <span className="block mt-2 md:mt-3">AI 학습 데이터로 사용하세요.</span>
               </h1>
             </Reveal>
@@ -330,7 +330,7 @@ const StatsSection = () =>
 
 // ------- Value -------
 const VALUES = [
-{ Icon: IconMessage, title: "실제 업무 맥락", body: "엔지니어의 기술 토론, 경영진의 의사결정, 팀 간 협업 과정이 고스란히 담긴 데이터입니다.", bg: "images/slack-chat.jpg" },
+{ Icon: IconMessage, title: "실제 업무 의사결정", body: "엔지니어의 기술 토론, 경영진의 의사결정, 팀 간 협업 과정이 고스란히 담긴 데이터입니다.", bg: "images/slack-chat.jpg" },
 { Icon: IconShield, title: "법적 리스크 제로", body: "모든 데이터는 개인정보 동의 및 비식별화 처리가 완료되어 즉시 학습에 활용 가능합니다.", bg: "images/법적 리스크.jpg" },
 { Icon: IconBrain, title: "도메인 특화 AI 구축", body: "범용 LLM을 넘어, 특정 산업에 전문화된 AI Agent를 만들기 위한 핵심 원료입니다.", bg: "images/ai-agent.jpg" }];
 
@@ -461,7 +461,7 @@ const FormSection = () => {
                   <div>
                     <label className="block text-[13px] text-mute mb-3">필요한 데이터 유형</label>
                     <div className="flex flex-col gap-2.5">
-                      {["업무 맥락 데이터", "도메인 특화 데이터"].map((t) =>
+                      {["업무 의사결정 데이터", "도메인 특화 데이터"].map((t) =>
                         <div key={t}>
                           <label className="check inline-flex items-center gap-3 cursor-pointer group w-full">
                             <input type="checkbox" className="sr-only" checked={pickedTypes.has(t)} onChange={() => toggleType(t)} />

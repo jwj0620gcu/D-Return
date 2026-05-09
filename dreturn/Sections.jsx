@@ -58,7 +58,7 @@ const Hero = () => (
       </Reveal>
       <Reveal delay={120}>
         <h1 className="mt-7 text-[40px] leading-[1.12] md:text-[68px] md:leading-[1.05] tracking-display font-medium max-w-[920px]">
-          실제 회사 업무 맥락이 담긴 데이터를,<br className="hidden md:block"/>
+          실제 회사 업무 의사결정이 담긴 데이터를,<br className="hidden md:block"/>
           <span className="text-ink/55">AI 학습 데이터로 사용하세요.</span>
         </h1>
       </Reveal>
@@ -154,7 +154,7 @@ const VALUES = [
         <path d="M3 20a6 6 0 0 1 12 0"/><path d="M14 20a5 5 0 0 1 7 0"/>
       </svg>
     ),
-    title: "실제 업무 맥락",
+    title: "실제 업무 의사결정",
     body: "팀원들의 문제 해결과정, 엔지니어의 기술 토론, 경영진의 의사결정 등 팀 간 협업 과정이 고스란히 담긴 데이터입니다.",
   },
   {

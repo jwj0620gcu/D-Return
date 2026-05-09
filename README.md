@@ -70,7 +70,7 @@ D-Return/
 | **Hero** | 메인 헤드라인 + 애니메이션 콜라주 카드 |
 | **Data Sources** | Slack, Notion, Gmail, Jira, Drive, GitHub 수집 소스 |
 | **Stats** | 총 토큰 수, 수집 기업 수, 커버 도메인, 비식별화 완료율 |
-| **Why D-return** | 실제 업무 맥락 / 법적 리스크 제로 / 도메인 특화 AI |
+| **Why D-return** | 실제 업무 의사결정 / 법적 리스크 제로 / 도메인 특화 AI |
 | **샘플 요청 폼** | 이메일 입력 + 데이터 유형 선택 + 상세 문의 |
 
 ---
