@@ -638,13 +638,12 @@ const SellForm = () => {
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!valid) { setEmailErr(true); return; }
     setEmailErr(false); setSubmitErr(""); setLoading(true);
-    fetch("https://api.airtable.com/v0/appMAGAikG2aoUD0l/tbloK7PT0iuiQLMIp", {
+    fetch("/api/airtable-submit", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer " + window.AIRTABLE_TOKEN,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fields: {
+      body: JSON.stringify({ kind: "sell", fields: {
         "회사명": company,
         "이메일": email,
         "현재 상황": situation,

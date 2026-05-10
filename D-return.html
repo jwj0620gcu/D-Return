@@ -457,13 +457,12 @@ const FormSection = () => {
     setEmailErr(false);
     setSubmitErr("");
     setLoading(true);
-    fetch("https://api.airtable.com/v0/appMAGAikG2aoUD0l/tbl6ds2LQAAb7GClZ", {
+    fetch("/api/airtable-submit", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer " + window.AIRTABLE_TOKEN,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fields: {
+      body: JSON.stringify({ kind: "buy", fields: {
         "이메일": email,
         "데이터 유형": [...pickedTypes].join(", "),
         "도메인": [...pickedDomains].join(", "),
