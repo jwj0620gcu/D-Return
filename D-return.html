@@ -58,7 +58,8 @@
   </script>
 
   <style>
-    html, body { background: #F3F0EE; color: #3a3a39; }
+    html, body { background: #F3F0EE; color: #3a3a39; overflow-x: hidden; }
+    *, *::before, *::after { box-sizing: border-box; }
     body { font-family: "Noto Sans KR", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
     .display { letter-spacing: -0.02em; }
     .eyebrow { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #7a7a78; }
@@ -135,6 +136,19 @@
     .flow-line-inner { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, #F37338 50%, transparent 100%); background-size: 50% 100%; transition: opacity .3s; }
     .node-photo { transition: border-color .3s ease, box-shadow .3s ease; }
     @keyframes fadeSlide { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+    .article-image { height: clamp(220px, 52vw, 340px); }
+    @media (max-width: 639px) {
+      .hero-section { min-height: auto !important; }
+      .hero-inner { padding-top: 56px !important; padding-bottom: 56px !important; }
+      .article-section { padding: 56px 0 !important; }
+      .article-wrap { padding: 0 20px !important; }
+      .article-head { align-items: flex-start !important; gap: 18px; margin-bottom: 28px !important; }
+      .article-card { border-radius: 16px !important; }
+      .article-body { padding: 20px !important; }
+      .article-title { font-size: 16px !important; }
+      .article-meta { align-items: flex-start !important; gap: 12px; }
+      .node-photo { width: 88px !important; height: 88px !important; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
       .collage .card { animation: none !important; }
@@ -207,7 +221,7 @@ const Brand = ({ size = 18 }) =>
 // ------- Nav -------
 const Nav = ({ current = "buy" }) =>
 <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(243,240,238,0.92)", backdropFilter: "blur(14px)", borderBottom: "1px solid rgba(20,20,19,0.07)" }}>
-  <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 h-14 sm:h-16 flex items-center justify-between gap-4">
+  <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 min-h-14 sm:min-h-16 py-2 flex items-center justify-between gap-2 sm:gap-4">
     <Brand size={17} />
     <div className="flex items-center gap-0.5 bg-white rounded-[999px] p-1 border border-border shadow-sm">
       <a href="D-return.html"
@@ -226,7 +240,7 @@ const Nav = ({ current = "buy" }) =>
         {window.LANG === 'ko' ? '🇺🇸' : '🇰🇷'}
       </button>
       <a href="#request"
-        className="cta-glow inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
+        className="cta-glow hidden sm:inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
         style={{ letterSpacing: "-0.02em" }}>
         {t('nav_cta_buy')}
       </a>
@@ -281,10 +295,10 @@ style={{ letterSpacing: "-0.02em" }}>
 
 // ------- Hero -------
 const Hero = ({ onCTA }) =>
-<section className="relative flex items-center overflow-hidden" style={{ minHeight: "100svh" }}>
+<section className="hero-section relative flex items-center overflow-hidden" style={{ minHeight: "100svh" }}>
       <div className="absolute inset-0 dot-grid opacity-50 pointer-events-none" />
       <div className="absolute inset-0 hero-glow pointer-events-none" />
-      <div className="relative w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
+      <div className="hero-inner relative w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-center">
           <div>
             <Reveal delay={120}>
@@ -608,9 +622,9 @@ const ArticlesSection = () => {
   }, []);
 
   return (
-    <section style={{ padding: "80px 0", background: "#ECE7E1" }}>
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36 }}>
+    <section className="article-section" style={{ padding: "80px 0", background: "#ECE7E1" }}>
+      <div className="article-wrap" style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
+        <div className="article-head" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36 }}>
           <div>
             <span className="eyebrow">{t('articles_eyebrow')}</span>
             <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('articles_h2')}</h2>
@@ -625,6 +639,7 @@ const ArticlesSection = () => {
           </div>
         </div>
         <a key={idx} href={ARTICLES[idx].url} target="_blank" rel="noopener noreferrer"
+          className="article-card"
           style={{
             display: "block", textDecoration: "none",
             borderRadius: 20, overflow: "hidden",
@@ -632,18 +647,18 @@ const ArticlesSection = () => {
             boxShadow: "0 8px 32px rgba(20,20,19,0.08)",
             animation: "fadeSlide .35s ease",
           }}>
-          <div style={{ height: 340, position: "relative", overflow: "hidden", background: ARTICLES[idx].grad || "#e0dcd8" }}>
+          <div className="article-image" style={{ position: "relative", overflow: "hidden", background: ARTICLES[idx].grad || "#e0dcd8" }}>
             {ARTICLES[idx].img && (
               <img src={ARTICLES[idx].img} alt={ARTICLES[idx].title}
                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: ARTICLES[idx].imgPos || "center", display: "block" }} />
             )}
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%)" }} />
           </div>
-          <div style={{ background: "#fff", padding: "24px 28px 28px" }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "#141413", lineHeight: 1.45, letterSpacing: "-0.01em" }}>
+          <div className="article-body" style={{ background: "#fff", padding: "24px 28px 28px" }}>
+            <div className="article-title" style={{ fontSize: 18, fontWeight: 700, color: "#141413", lineHeight: 1.45, letterSpacing: "-0.01em" }}>
               {ARTICLES[idx].title}
             </div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16 }}>
+            <div className="article-meta" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16 }}>
               <span style={{ fontSize: 12, color: "#A6A29C" }}>{ARTICLES[idx].date}</span>
               <span style={{ fontSize: 12, fontWeight: 600, color: ARTICLES[idx].sourceColor, display: "flex", alignItems: "center", gap: 4 }}>
                 {t('articles_read')}
@@ -774,7 +789,7 @@ const MarketplaceFlow = () => {
             <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
               {t('flow_h2')}
             </h2>
-            <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[600px] mx-auto leading-[1.65] whitespace-nowrap">
+            <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[600px] mx-auto leading-[1.65]">
               {t('flow_subtitle')}
             </p>
           </div>
