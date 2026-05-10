@@ -184,6 +184,29 @@ const Brand = ({ size = 18 }) =>
       D<span className="text-signal">-</span>return
     </span>;
 
+// ------- Nav -------
+const Nav = ({ current = "buy" }) =>
+<nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(243,240,238,0.92)", backdropFilter: "blur(14px)", borderBottom: "1px solid rgba(20,20,19,0.07)" }}>
+  <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 h-14 sm:h-16 flex items-center justify-between gap-4">
+    <Brand size={17} />
+    <div className="flex items-center gap-0.5 bg-white rounded-[999px] p-1 border border-border shadow-sm">
+      <a href="D-return.html"
+        className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "buy" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
+        데이터 구매
+      </a>
+      <a href="sell.html"
+        className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "sell" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
+        데이터 판매
+      </a>
+    </div>
+    <a href="#request"
+      className="cta-glow inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
+      style={{ letterSpacing: "-0.02em" }}>
+      샘플 요청
+    </a>
+  </div>
+</nav>;
+
 
 // ------- Icons (lucide-style, monoline) -------
 const I = (path) => (props) =>
@@ -545,6 +568,7 @@ const App = () => {
   const goForm = () => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" });
   return (
     <React.Fragment>
+        <Nav current="buy" />
         <Hero onCTA={goForm} />
         <Sources />
         <StatsSection />
