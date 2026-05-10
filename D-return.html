@@ -119,16 +119,25 @@
     }
     * { -webkit-tap-highlight-color: transparent; }
     button, a { touch-action: manipulation; }
+    @keyframes flowR { from { background-position: -100% 0; } to { background-position: 200% 0; } }
+    @keyframes flowL { from { background-position: 200% 0; } to { background-position: -100% 0; } }
+    .flow-line { height: 2px; border-radius: 999px; position: relative; overflow: hidden; transition: background .3s; }
+    .flow-line-inner { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, #F37338 50%, transparent 100%); background-size: 50% 100%; transition: opacity .3s; }
+    .node-photo { transition: border-color .3s ease, box-shadow .3s ease; }
+    @keyframes fadeSlide { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
     @media (prefers-reduced-motion: reduce) {
       .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
       .collage .card { animation: none !important; }
       .collage-tag::before { animation: none !important; }
+      .flow-line-inner { animation: none !important; }
     }
   </style>
 
   <script src="image-slot.js"></script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="config.js"></script>
+  <script src="i18n.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(243, 240, 238); font-family: &quot;Noto Sans KR&quot;">
@@ -139,6 +148,7 @@
 
 
 const { useEffect, useRef, useState } = React;
+const t = window.t;
 
 // ------- Reveal -------
 const Reveal = ({ children, delay = 0, className = "", as: Tag = "div" }) => {
@@ -192,18 +202,25 @@ const Nav = ({ current = "buy" }) =>
     <div className="flex items-center gap-0.5 bg-white rounded-[999px] p-1 border border-border shadow-sm">
       <a href="D-return.html"
         className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "buy" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
-        데이터 구매
+        {t('nav_buy')}
       </a>
       <a href="sell.html"
         className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "sell" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
-        데이터 판매
+        {t('nav_sell')}
       </a>
     </div>
-    <a href="#request"
-      className="cta-glow inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
-      style={{ letterSpacing: "-0.02em" }}>
-      샘플 요청
-    </a>
+    <div className="flex items-center gap-2">
+      <button onClick={() => window.setLang(window.LANG === 'ko' ? 'en' : 'ko')}
+        className="transition px-2 py-1 rounded-[8px] border border-border hover:border-signal flex items-center gap-1"
+        style={{ fontSize: 18, lineHeight: 1 }}>
+        {window.LANG === 'ko' ? '🇺🇸' : '🇰🇷'}
+      </button>
+      <a href="#request"
+        className="cta-glow inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
+        style={{ letterSpacing: "-0.02em" }}>
+        {t('nav_cta_buy')}
+      </a>
+    </div>
   </div>
 </nav>;
 
@@ -262,18 +279,18 @@ const Hero = ({ onCTA }) =>
           <div>
             <Reveal delay={120}>
               <h1 className="display text-white1 font-bold mt-4 sm:mt-6 lg:mt-7 text-[28px] leading-[1.2] sm:text-[36px] sm:leading-[1.15] md:text-[48px] md:leading-[1.08] lg:text-[58px] lg:leading-[1.05]">
-                <span className="block">실제 업무 의사결정이 담긴 데이터를,</span>
-                <span className="block mt-2 md:mt-3">AI 학습 데이터로 사용하세요.</span>
+                <span className="block">{t('buy_hero_h1_1')}</span>
+                <span className="block mt-2 md:mt-3">{t('buy_hero_h1_2')}</span>
               </h1>
             </Reveal>
             <Reveal delay={240}>
               <p className="mt-5 md:mt-8 max-w-[560px] text-white2 text-[15px] sm:text-[16px] md:text-[18px] leading-[1.65]">
-                폐업 기업에서 수집한 Slack, Notion, Gmail, Jira, Google Drive 데이터 등 및 법적 리스크 해결 후, 비식별화 완료 상태로 제공합니다.
+                {t('buy_hero_sub')}
               </p>
             </Reveal>
             <Reveal delay={360}>
               <div className="mt-8 md:mt-12 flex flex-wrap items-center gap-4">
-                <PrimaryCTA onClick={onCTA}>샘플 데이터 얻기 <IconArrowDown width="18" height="18" /></PrimaryCTA>
+                <PrimaryCTA onClick={onCTA}>{t('buy_hero_cta')} <IconArrowDown width="18" height="18" /></PrimaryCTA>
               </div>
             </Reveal>
           </div>
@@ -298,8 +315,8 @@ const Sources = () =>
 <section className="py-12 sm:py-14 md:py-16 lg:py-20 bg-charcoal">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
         <Reveal>
-          <span className="eyebrow">Data Sources</span>
-          <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">수집 데이터 소스</h2>
+          <span className="eyebrow">{t('sources_eyebrow')}</span>
+          <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('sources_h2')}</h2>
         </Reveal>
         <Reveal delay={120}>
           <div className="mt-10 md:mt-16 grid grid-cols-3 md:grid-cols-6 gap-5 md:gap-8 items-center justify-items-center">
@@ -312,7 +329,7 @@ const Sources = () =>
         </Reveal>
         <Reveal delay={240}>
           <p className="mt-10 md:mt-16 text-center text-[13px] md:text-[14px] text-mute">
-            모든 데이터는 개인정보 동의 완료 및 비식별화 처리를 거쳤습니다.
+            {t('sources_disclaimer')}
           </p>
         </Reveal>
       </div>
@@ -321,17 +338,17 @@ const Sources = () =>
 
 // ------- Stats -------
 const STATS = [
-{ value: 12, suffix: "억+", label: "총 토큰 수", sub: "Tokens" },
-{ value: 30, suffix: "+", label: "수집 완료 기업 수", sub: "Companies" },
-{ value: 7, suffix: "", label: "커버 도메인", sub2: "(법, 교육, 의료, 금융, 물류, 마켓팅, CS)", sub: "Domains" },
-{ value: 100, suffix: "%", label: "4단계 기술로 비식별화 완료율", sub: "Anonymized" }];
+{ value: 12, suffix: window.LANG === 'ko' ? "억+" : "", format: window.LANG === 'ko' ? undefined : (n) => (n / 10).toFixed(1) + "B+", label: t('stat_buy_1_label'), sub: "Tokens" },
+{ value: 30, suffix: "+",   label: t('stat_buy_2_label'), sub: "Companies" },
+{ value: 7,  suffix: "",    label: t('stat_buy_3_label'), sub2: t('stat_buy_3_sub2'), sub: "Domains" },
+{ value: 100, suffix: "%",  label: t('stat_buy_4_label'), sub: "Anonymized" }];
 
 const StatsSection = () =>
-<section id="stats" className="py-14 sm:py-20 md:py-24 lg:py-32">
+<section id="stats" className="py-14 sm:py-20 md:py-24 lg:py-32 bg-[#F3F0EE]">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
         <Reveal>
-          <span className="eyebrow">Scale</span>
-          <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">보유 데이터 규모</h2>
+          <span className="eyebrow">{t('stat_buy_eyebrow')}</span>
+          <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('stat_buy_h2')}</h2>
         </Reveal>
         <div className="mt-8 md:mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
           {STATS.map((s, i) =>
@@ -339,7 +356,7 @@ const StatsSection = () =>
               <div className="rounded-[18px] md:rounded-[24px] bg-lifted border border-border p-5 sm:p-6 md:p-8 lg:p-9 h-full"
         style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}>
                 <div className="font-extrabold text-[34px] sm:text-[40px] md:text-[52px] lg:text-[64px] leading-[1] display" style={{ color: "#F37338" }}>
-                  <CountUp to={s.value} suffix={s.suffix} />
+                  <CountUp to={s.value} suffix={s.suffix} {...(s.format ? { format: s.format } : {})} />
                 </div>
                 <div className="mt-3 md:mt-5 text-[12px] sm:text-[13px] md:text-[14px] text-white2">{s.label}{s.sub2 && <div className="text-[10px] md:text-[11px] text-dim mt-1">{s.sub2}</div>}</div>
                 <div className="mt-1.5 font-mono text-[10px] md:text-[11px] uppercase tracking-up text-dim">{s.sub}</div>
@@ -353,17 +370,17 @@ const StatsSection = () =>
 
 // ------- Value -------
 const VALUES = [
-{ Icon: IconMessage, title: "실제 업무 의사결정", body: "엔지니어의 기술 토론, 경영진의 의사결정, 팀 간 협업 과정이 고스란히 담긴 데이터입니다.", bg: "images/slack-chat.jpg" },
-{ Icon: IconShield, title: "법적 리스크 제로", body: "모든 데이터는 개인정보 동의 및 비식별화 처리가 완료되어 즉시 학습에 활용 가능합니다.", bg: "images/법적 리스크.jpg" },
-{ Icon: IconBrain, title: "도메인 특화 AI 구축", body: "범용 LLM을 넘어, 특정 산업에 전문화된 AI Agent를 만들기 위한 핵심 원료입니다.", bg: "images/ai-agent.jpg" }];
+{ Icon: IconMessage, title: t('value_1_title'), body: t('value_1_body'), bg: "images/slack-chat.jpg" },
+{ Icon: IconShield,  title: t('value_2_title'), body: t('value_2_body'), bg: "images/법적 리스크.jpg" },
+{ Icon: IconBrain,   title: t('value_3_title'), body: t('value_3_body'), bg: "images/ai-agent.jpg" }];
 
 const ValueSection = () =>
 <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
         <Reveal>
-          <span className="eyebrow">Why D-return</span>
+          <span className="eyebrow">{t('value_eyebrow')}</span>
           <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18] max-w-[600px]">
-            왜 <span className="font-mono">D-return</span> 데이터인가
+            {t('value_h2_pre')}<span className="font-mono">D-return</span>{t('value_h2_post')}
           </h2>
         </Reveal>
         <div className="mt-8 md:mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
@@ -389,7 +406,8 @@ const ValueSection = () =>
 
 
 // ------- Form -------
-const DOMAINS = ["법", "교육", "의료", "금융", "물류", "마켓팅", "CS"];
+const DOMAINS = [t('domain_1'), t('domain_2'), t('domain_3'), t('domain_4'), t('domain_5'), t('domain_6'), t('domain_7')];
+const DATA_TYPES_BUY = [t('form_buy_type_1'), t('form_buy_type_2')];
 
 const FormSection = () => {
   const [email, setEmail] = useState("");
@@ -399,9 +417,9 @@ const FormSection = () => {
   const [purpose, setPurpose] = useState("");
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
-  const toggleType = (t) => {
-    const n = new Set(pickedTypes); n.has(t) ? n.delete(t) : n.add(t); setPickedTypes(n);
-    if (t === "도메인 특화 데이터") setDomainOpen(!domainOpen);
+  const toggleType = (typ) => {
+    const n = new Set(pickedTypes); n.has(typ) ? n.delete(typ) : n.add(typ); setPickedTypes(n);
+    if (typ === t('form_buy_type_2')) setDomainOpen(!domainOpen);
   };
   const toggleDomain = (d) => {
     const n = new Set(pickedDomains); n.has(d) ? n.delete(d) : n.add(d); setPickedDomains(n);
@@ -413,18 +431,34 @@ const FormSection = () => {
     if (!valid) { setEmailErr(true); return; }
     setEmailErr(false);
     setLoading(true);
-    setTimeout(() => { setLoading(false); setDone(true); }, 1400);
+    fetch("https://api.airtable.com/v0/appMAGAikG2aoUD0l/tbl6ds2LQAAb7GClZ", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + window.AIRTABLE_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fields: {
+        "이메일": email,
+        "데이터 유형": [...pickedTypes].join(", "),
+        "도메인": [...pickedDomains].join(", "),
+        "상세 문의": purpose,
+      }}),
+    })
+      .then(r => r.json())
+      .then(data => { if (data.error) console.error("Airtable 오류:", data.error, data.message); })
+      .catch(err => console.error("네트워크 오류:", err))
+      .finally(() => { setLoading(false); setDone(true); });
   };
 
   return (
-    <section id="request" className="py-14 sm:py-20 md:py-24 lg:py-32">
+    <section id="request" className="py-14 sm:py-20 md:py-24 lg:py-32 bg-[#F3F0EE]">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
           <Reveal>
             <div className="text-center">
-              <span className="eyebrow">Get Started</span>
-              <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">데이터 샘플 요청</h2>
+              <span className="eyebrow">{t('form_buy_eyebrow')}</span>
+              <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('form_buy_h2')}</h2>
               <p className="mt-4 md:mt-5 text-white2 text-[14px] sm:text-[15px] md:text-[16px] max-w-[520px] mx-auto">
-                업무용 이메일과 필요한 데이터 유형을 알려주시면, 영업일 기준 24시간 이내에 샘플 데이터를 보내드립니다.
+                {t('form_buy_sub')}
               </p>
             </div>
           </Reveal>
@@ -452,10 +486,10 @@ const FormSection = () => {
                       </div>
                     </div>
                     <h3 className="display text-white1 font-bold mt-6 text-[24px]" style={{ animation: "fade-up .4s ease .55s both", opacity: 0 }}>
-                      신청해 주셔서 감사합니다
+                      {t('form_buy_ok_h3')}
                     </h3>
                     <p className="mt-2 text-white2 text-[15px]" style={{ animation: "fade-up .4s ease .65s both", opacity: 0 }}>
-                      <span className="text-white1 font-medium">{email}</span>으로<br/>영업일 기준 24시간 이내에 연락드리겠습니다.
+                      {t('form_buy_ok_pre')}<span className="text-white1 font-medium">{email}</span>{t('form_buy_ok_post')}
                     </p>
                   </div>
                   <style>{`
@@ -468,38 +502,38 @@ const FormSection = () => {
 
             <form onSubmit={submit} className="space-y-5 sm:space-y-6 p-5 sm:p-7 md:p-10 lg:p-12">
                   <div>
-                    <label className="block text-[13px] text-mute mb-2.5"> 이메일</label>
+                    <label className="block text-[13px] text-mute mb-2.5">{t('form_buy_email_label')}</label>
                     <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setEmailErr(false); }}
-                placeholder="업무용 이메일을 입력하세요"
+                placeholder={t('form_buy_email_ph')}
                 className="ring-signal w-full rounded-[999px] bg-field border text-white2 px-6 py-3.5 text-[15px] placeholder:text-mute outline-none transition"
                 style={{ borderColor: emailErr ? "#F37338" : undefined }} />
                     {emailErr && (
                       <div className="mt-2 flex items-center gap-1.5 px-1" style={{ animation: "fade-up .25s ease both" }}>
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F37338" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                        <span className="text-[12.5px]" style={{ color: "#F37338" }}>올바른 이메일 주소를 입력해 주세요</span>
+                        <span className="text-[12.5px]" style={{ color: "#F37338" }}>{t('form_email_err')}</span>
                       </div>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-[13px] text-mute mb-3">필요한 데이터 유형</label>
+                    <label className="block text-[13px] text-mute mb-3">{t('form_buy_type_label')}</label>
                     <div className="flex flex-col gap-2.5">
-                      {["업무 의사결정 데이터", "도메인 특화 데이터"].map((t) =>
-                        <div key={t}>
+                      {DATA_TYPES_BUY.map((typ) =>
+                        <div key={typ}>
                           <label className="check inline-flex items-center gap-3 cursor-pointer group w-full">
-                            <input type="checkbox" className="sr-only" checked={pickedTypes.has(t)} onChange={() => toggleType(t)} />
+                            <input type="checkbox" className="sr-only" checked={pickedTypes.has(typ)} onChange={() => toggleType(typ)} />
                             <span className="box w-[18px] h-[18px] rounded-[6px] border border-border2 inline-flex items-center justify-center flex-shrink-0 transition">
                               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m5 12 5 5 9-12" /></svg>
                             </span>
-                            <span className="text-white2 text-[15px] group-hover:text-white1 transition flex-1">{t}</span>
-                            {t === "도메인 특화 데이터" && (
+                            <span className="text-white2 text-[15px] group-hover:text-white1 transition flex-1">{typ}</span>
+                            {typ === t('form_buy_type_2') && (
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                                 style={{ color: "#A6A29C", transform: domainOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform .2s ease" }}>
                                 <path d="m6 9 6 6 6-6"/>
                               </svg>
                             )}
                           </label>
-                          {t === "도메인 특화 데이터" && domainOpen && (
+                          {typ === t('form_buy_type_2') && domainOpen && (
                             <div className="mt-2.5 ml-7 flex flex-wrap gap-2">
                               {DOMAINS.map((d) =>
                                 <button key={d} type="button" onClick={() => toggleDomain(d)}
@@ -520,9 +554,9 @@ const FormSection = () => {
                   </div>
 
                   <div>
-                    <label className="block text-[13px] text-mute mb-2.5">상세 문의사항 <span className="text-dim">(선택)</span></label>
+                    <label className="block text-[13px] text-mute mb-2.5">{t('form_buy_note_label')} <span className="text-dim">{t('form_buy_note_opt')}</span></label>
                     <textarea rows="3" value={purpose} onChange={(e) => setPurpose(e.target.value)}
-                placeholder="편하게 물어봐주세요!"
+                placeholder={t('form_buy_note_ph')}
                 className="ring-signal w-full rounded-[16px] bg-field border border-border2 text-white2 px-5 py-4 text-[15px] placeholder:text-mute outline-none transition resize-none" />
                   </div>
 
@@ -533,13 +567,13 @@ const FormSection = () => {
                           style={{ animation: "spin .7s linear infinite" }}>
                           <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                         </svg>
-                        제출 중...
+                        {t('form_buy_submitting')}
                       </span>
-                    ) : <span className="inline-flex items-center gap-2">샘플 요청하기 <IconArrowRight width="18" height="18" /></span>}
+                    ) : <span className="inline-flex items-center gap-2">{t('form_buy_submit')} <IconArrowRight width="18" height="18" /></span>}
                   </PrimaryCTA>
                   <style>{`.cta-glow[disabled]{opacity:.75;cursor:not-allowed;transform:none!important;} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
                   <p className="text-center text-[13px] text-mute">
-                    요청 후 영업일 기준 24시간 이내 샘플 데이터를 보내드립니다.
+                    {t('form_buy_footer')}
                   </p>
                 </form>
             }
@@ -550,18 +584,246 @@ const FormSection = () => {
 
 };
 
-// ------- Footer -------
-const Footer = () =>
-<footer className="border-t border-border py-10 md:py-14">
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6">
-        <Brand size={20} />
-        <div className="flex flex-col md:flex-row md:items-center gap-1.5 md:gap-8 text-[13.5px]">
-          <a href="mailto:contact@d-return.io" className="text-mute hover:text-white2 transition">jwj4181@gmail.com</a>
-          <span className="text-dim">© 2026 D-return. All rights reserved.</span>
+// ------- Articles -------
+const ARTICLES = window.LANG === 'ko' ? window.ARTICLES_KO : window.ARTICLES_EN;
+
+const ArticlesSection = () => {
+  const [idx, setIdx] = useState(0);
+  const n = ARTICLES.length;
+  const go = (i) => setIdx((i + n) % n);
+
+  useEffect(() => {
+    const t = setInterval(() => setIdx(i => (i + 1) % n), 4500);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <section style={{ padding: "80px 0", background: "#ECE7E1" }}>
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36 }}>
+          <div>
+            <span className="eyebrow">{t('articles_eyebrow')}</span>
+            <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('articles_h2')}</h2>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={() => go(idx - 1)} style={{ width: 40, height: 40, borderRadius: "50%", border: "1px solid #E8E2DA", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="#141413" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+            <button onClick={() => go(idx + 1)} style={{ width: 40, height: 40, borderRadius: "50%", border: "1px solid #E8E2DA", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="#141413" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <a key={idx} href={ARTICLES[idx].url} target="_blank" rel="noopener noreferrer"
+          style={{
+            display: "block", textDecoration: "none",
+            borderRadius: 20, overflow: "hidden",
+            border: "1px solid #E8E2DA",
+            boxShadow: "0 8px 32px rgba(20,20,19,0.08)",
+            animation: "fadeSlide .35s ease",
+          }}>
+          <div style={{ height: 340, position: "relative", overflow: "hidden", background: ARTICLES[idx].grad || "#e0dcd8" }}>
+            {ARTICLES[idx].img && (
+              <img src={ARTICLES[idx].img} alt={ARTICLES[idx].title}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: ARTICLES[idx].imgPos || "center", display: "block" }} />
+            )}
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%)" }} />
+          </div>
+          <div style={{ background: "#fff", padding: "24px 28px 28px" }}>
+            <div style={{ fontSize: 18, fontWeight: 700, color: "#141413", lineHeight: 1.45, letterSpacing: "-0.01em" }}>
+              {ARTICLES[idx].title}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16 }}>
+              <span style={{ fontSize: 12, color: "#A6A29C" }}>{ARTICLES[idx].date}</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: ARTICLES[idx].sourceColor, display: "flex", alignItems: "center", gap: 4 }}>
+                {t('articles_read')}
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M8 4l3 2.5L8 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </a>
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 24 }}>
+          {ARTICLES.map((_, i) => (
+            <button key={i} onClick={() => setIdx(i)} style={{
+              width: i === idx ? 24 : 6, height: 6, borderRadius: 999,
+              background: i === idx ? "#F37338" : "#D1CDC7",
+              border: "none", cursor: "pointer", padding: 0,
+              transition: "width .35s ease, background .35s ease",
+            }} />
+          ))}
         </div>
       </div>
-    </footer>;
+    </section>
+  );
+};
 
+// ------- Footer -------
+const Footer = () =>
+  <footer className="border-t border-border bg-[#F3F0EE]">
+    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+      <div className="py-10 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+        <div>
+          <Brand size={18} />
+          <p className="mt-4 text-[12px] text-mute leading-[1.75] max-w-[160px]">
+            {t('footer_desc_sell')}
+          </p>
+        </div>
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-up text-dim mb-4">{t('footer_services')}</div>
+          <div className="flex flex-col gap-2.5">
+            <a href="D-return.html" className="text-[13px] text-mute hover:text-white2 transition">{t('nav_buy')}</a>
+            <a href="sell.html"     className="text-[13px] text-mute hover:text-white2 transition">{t('nav_sell')}</a>
+          </div>
+        </div>
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-up text-dim mb-4">{t('footer_contact')}</div>
+          <div className="flex flex-col gap-2.5">
+            <a href="mailto:jwj4181@gmail.com" className="text-[13px] text-mute hover:text-white2 transition">jwj4181@gmail.com</a>
+            <span className="text-[13px] text-mute">{t('footer_contact_hours')}</span>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-border py-6 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-dim leading-relaxed">
+          <span>{t('footer_biz_name')}</span>
+          <span>{t('footer_biz_ceo')}</span>
+          <span>{t('footer_biz_addr')}</span>
+        </div>
+        <span className="text-[11px] text-dim whitespace-nowrap">{t('footer_copyright')}</span>
+      </div>
+    </div>
+  </footer>;
+
+
+// ------- Marketplace Flow -------
+const FlowArrow = ({ dir, label, active }) => (
+  <div className="flex flex-col items-stretch gap-1.5">
+    <span className="text-[13px] sm:text-[14px] font-semibold text-center whitespace-nowrap leading-tight transition-colors duration-300"
+      style={{ color: active ? "#F37338" : "#7a7a78" }}>
+      {label}
+    </span>
+    <div className="flex items-center gap-1">
+      {dir === "left" && (
+        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" style={{ flexShrink: 0 }}>
+          <path d="M6 0L0 5.5L6 11V0Z" fill={active ? "#F37338" : "#D1CDC7"} style={{ transition: "fill .3s" }} />
+        </svg>
+      )}
+      <div className="flow-line flex-1" style={{ background: active ? "rgba(243,115,56,0.18)" : "rgba(20,20,19,0.09)" }}>
+        <div className="flow-line-inner"
+          style={{
+            animation: `${dir === "right" ? "flowR" : "flowL"} 1.4s linear infinite`,
+            opacity: active ? 1 : 0,
+          }} />
+      </div>
+      {dir === "right" && (
+        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" style={{ flexShrink: 0 }}>
+          <path d="M0 0L6 5.5L0 11V0Z" fill={active ? "#F37338" : "#D1CDC7"} style={{ transition: "fill .3s" }} />
+        </svg>
+      )}
+    </div>
+  </div>
+);
+
+const NodeCard = ({ img, imgPosition = "50% 50%", title, sub, active, onEnter, onLeave }) => (
+  <div className="flex-shrink-0 flex flex-col items-center gap-3 cursor-pointer select-none"
+    onMouseEnter={onEnter} onMouseLeave={onLeave}>
+    <div className="node-photo rounded-full overflow-hidden border-4"
+      role="img" aria-label={title}
+      style={{
+        width: 120, height: 120,
+        borderColor: active ? "#F37338" : "#E8E2DA",
+        boxShadow: active
+          ? "0 0 0 6px rgba(243,115,56,0.12), 0 20px 48px rgba(20,20,19,0.14)"
+          : "0 8px 24px rgba(20,20,19,0.08)",
+        backgroundImage: `url(${img})`,
+        backgroundSize: "cover",
+        backgroundPosition: imgPosition,
+      }}>
+    </div>
+    <div className="text-center">
+      <div className="font-semibold text-[14px] sm:text-[15px] transition-colors duration-300"
+        style={{ color: active ? "#F37338" : "#141413" }}>
+        {title}
+      </div>
+      <div className="text-mute text-[11px] sm:text-[12px] mt-0.5">{sub}</div>
+    </div>
+  </div>
+);
+
+const MarketplaceFlow = () => {
+  const [hovered, setHovered] = useState(null);
+  const leftActive  = hovered === null || hovered === "supply" || hovered === "center";
+  const rightActive = hovered === null || hovered === "demand" || hovered === "center";
+
+  return (
+    <section className="py-14 sm:py-20 md:py-24 lg:py-28 bg-[#F3F0EE]">
+      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+        <Reveal>
+          <div className="text-center">
+            <span className="eyebrow">{t('flow_eyebrow')}</span>
+            <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+              {t('flow_h2')}
+            </h2>
+            <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[600px] mx-auto leading-[1.65] whitespace-nowrap">
+              {t('flow_subtitle')}
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-12 md:mt-16 overflow-x-auto pb-4 -mx-2 px-2">
+            <div className="flex items-center justify-between gap-4 md:gap-6 min-w-[580px]">
+              <NodeCard
+                img="images/company.jpg"
+                title={t('flow_supplier_title')}
+                sub={t('flow_supplier_sub')}
+                active={hovered === "supply"}
+                onEnter={() => setHovered("supply")}
+                onLeave={() => setHovered(null)}
+              />
+              <div className="flex-1 flex flex-col gap-3.5 min-w-0">
+                <FlowArrow dir="right" label={t('flow_arrow_raw')} active={leftActive} />
+                <FlowArrow dir="left"  label={t('flow_arrow_revenue')} active={leftActive} />
+              </div>
+              <div className="flex-shrink-0 flex flex-col items-center gap-3 cursor-default"
+                onMouseEnter={() => setHovered("center")}
+                onMouseLeave={() => setHovered(null)}>
+                <div className="rounded-full flex items-center justify-center border-2 transition-all duration-300"
+                  style={{
+                    width: 96, height: 96,
+                    background: "#141413",
+                    borderColor: hovered === "center" ? "#F37338" : "rgba(255,255,255,0.12)",
+                    boxShadow: hovered
+                      ? "0 0 40px rgba(243,115,56,0.28), 0 16px 40px rgba(20,20,19,0.22)"
+                      : "0 12px 32px rgba(20,20,19,0.18)",
+                  }}>
+                  <span className="font-mono font-bold leading-none" style={{ fontSize: 17, letterSpacing: "-0.02em", color: "#fff" }}>
+                    D<span style={{ color: "#F37338" }}>-</span>return
+                  </span>
+                </div>
+                <div className="text-center">
+                  <div className="font-mono font-bold text-[13px]" style={{ color: "#F37338" }}>{t('flow_hub_label')}</div>
+                </div>
+              </div>
+              <div className="flex-1 flex flex-col gap-3.5 min-w-0">
+                <FlowArrow dir="right" label={t('flow_arrow_delivery')} active={rightActive} />
+                <FlowArrow dir="left"  label={t('flow_arrow_request')} active={rightActive} />
+              </div>
+              <NodeCard
+                img="images/llm.png"
+                imgPosition="35% 50%"
+                title="AI / LLM"
+                sub={t('flow_buyer_sub')}
+                active={hovered === "demand"}
+                onEnter={() => setHovered("demand")}
+                onLeave={() => setHovered(null)}
+              />
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
 
 // ------- App -------
 const App = () => {
@@ -570,9 +832,11 @@ const App = () => {
     <React.Fragment>
         <Nav current="buy" />
         <Hero onCTA={goForm} />
+        <MarketplaceFlow />
         <Sources />
         <StatsSection />
         <ValueSection />
+        <ArticlesSection />
         <FormSection />
         <Footer />
       </React.Fragment>);
