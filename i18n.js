@@ -123,6 +123,7 @@
       form_sell_ok_pre: "",
       form_sell_ok_post: "으로 영업일 기준 24시간 이내에 연락드리겠습니다.",
       form_email_err: "올바른 이메일 주소를 입력해 주세요",
+      form_submit_err: "제출에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 문의해 주세요.",
 
       buy_hero_h1_1: "실제 업무 의사결정이 담긴 데이터를,",
       buy_hero_h1_2: "AI 학습 데이터로 사용하세요.",
@@ -287,6 +288,7 @@
       form_sell_ok_pre: "We'll contact ",
       form_sell_ok_post: " within 24 business hours.",
       form_email_err: "Please enter a valid email address",
+      form_submit_err: "Submission failed. Please try again later or contact us by email.",
 
       buy_hero_h1_1: "Real workplace decision data,",
       buy_hero_h1_2: "ready for AI training.",
