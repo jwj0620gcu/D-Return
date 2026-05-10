@@ -352,7 +352,7 @@
       sourceColor: "#E1306C",
       title: "폐업 스타트업의 Slack·이메일 데이터, AI 학습용으로 팔렸다",
       date: "2026",
-      img: "images/slack-article.png",
+      img: "/images/slack-article.png",
       imgPos: "bottom",
       grad: "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
     },
