@@ -259,8 +259,8 @@ const SellHero = ({ onCTA }) =>
 // ------- Marketplace Flow -------
 const FlowArrow = ({ dir, label, active }) => (
   <div className="flex flex-col items-stretch gap-1.5">
-    <span className="text-[10px] sm:text-[11px] font-medium text-center whitespace-nowrap leading-tight transition-colors duration-300"
-      style={{ color: active ? "#F37338" : "#A6A29C" }}>
+    <span className="text-[13px] sm:text-[14px] font-semibold text-center whitespace-nowrap leading-tight transition-colors duration-300"
+      style={{ color: active ? "#F37338" : "#7a7a78" }}>
       {label}
     </span>
     <div className="flex items-center gap-1">
@@ -310,8 +310,8 @@ const NodeCard = ({ img, title, sub, active, onEnter, onLeave }) => (
 
 const MarketplaceFlow = () => {
   const [hovered, setHovered] = useState(null);
-  const leftActive  = hovered === "supply" || hovered === "center";
-  const rightActive = hovered === "demand" || hovered === "center";
+  const leftActive  = hovered === null || hovered === "supply" || hovered === "center";
+  const rightActive = hovered === null || hovered === "demand" || hovered === "center";
 
   return (
     <section className="py-14 sm:py-20 md:py-24 lg:py-28 bg-charcoal">
@@ -323,8 +323,7 @@ const MarketplaceFlow = () => {
               데이터 마켓플레이스 구조
             </h2>
             <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[480px] mx-auto leading-[1.65]">
-              D-return은 폐업 기업의 데이터와 AI 기업의 수요를 연결하는 전문 중개 플랫폼입니다.
-              노드에 마우스를 올려보세요.
+              D-return은 폐업 기업의 데이터와 AI 기업의 수요를 연결하는 전문 데이터 마켓플레이스입니다.
             </p>
           </div>
         </Reveal>
@@ -362,12 +361,12 @@ const MarketplaceFlow = () => {
                       ? "0 0 40px rgba(243,115,56,0.28), 0 16px 40px rgba(20,20,19,0.22)"
                       : "0 12px 32px rgba(20,20,19,0.18)",
                   }}>
-                  <span className="font-mono font-bold leading-none" style={{ fontSize: 13, letterSpacing: "-0.02em", color: "#fff" }}>
+                  <span className="font-mono font-bold leading-none" style={{ fontSize: 17, letterSpacing: "-0.02em", color: "#fff" }}>
                     D<span style={{ color: "#F37338" }}>-</span>return
                   </span>
                 </div>
                 <div className="text-center">
-                  <div className="font-mono font-bold text-[12px]" style={{ color: "#F37338" }}>중개 플랫폼</div>
+                  <div className="font-mono font-bold text-[13px]" style={{ color: "#F37338" }}>마켓플레이스</div>
                 </div>
               </div>
 
