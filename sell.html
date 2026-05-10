@@ -58,6 +58,31 @@
       -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
     }
     .hero-glow { background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(243,115,56,0.10) 0%, rgba(243,240,238,0) 70%); }
+    /* Sell hero collage */
+    .sell-collage { position: relative; width: 100%; aspect-ratio: 1 / 1.05; }
+    .sell-collage .card {
+      position: absolute; border-radius: 18px; overflow: hidden;
+      background: #FFFFFF; border: 1px solid rgba(20,20,19,0.06);
+      box-shadow: 0 24px 60px rgba(20,20,19,0.18), 0 4px 12px rgba(20,20,19,0.08);
+      transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+      will-change: transform;
+    }
+    .sell-collage .card:hover { z-index: 99; transform: translateY(-6px) rotate(0deg) scale(1.02) !important; box-shadow: 0 32px 80px rgba(20,20,19,0.22), 0 0 0 1px rgba(243,115,56,0.40); animation-play-state: paused !important; }
+    .sell-collage .card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+    .sell-collage .card.s-slack  { top: 0%;    left: 3%;   width: 65%; aspect-ratio: 620/512;  transform: rotate(-3deg); z-index: 3; animation: sfloat1 7s   ease-in-out infinite; }
+    .sell-collage .card.s-jira   { top: 42%;   right: 0%;  width: 65%; aspect-ratio: 1126/548; transform: rotate(3.5deg);  z-index: 2; animation: sfloat2 8s   ease-in-out infinite; }
+    .sell-collage .card.s-github { top: 10%;   right: -2%; width: 43%; aspect-ratio: 498/364;  transform: rotate(6deg);  z-index: 4; animation: sfloat3 6.5s ease-in-out infinite; }
+    .sell-collage .card.s-gmail  { bottom: 0%; left: 0%;   width: 46%; aspect-ratio: 3/4;      transform: rotate(-5deg); z-index: 5; animation: sfloat4 7.5s ease-in-out infinite; }
+    @keyframes sfloat1 { 0%,100% { transform: rotate(-3deg)   translateY(0);   } 50% { transform: rotate(-3deg)   translateY(-8px);  } }
+    @keyframes sfloat2 { 0%,100% { transform: rotate(3.5deg)  translateY(0);   } 50% { transform: rotate(3.5deg)  translateY(8px);   } }
+    @keyframes sfloat3 { 0%,100% { transform: rotate(6deg)    translateY(0);   } 50% { transform: rotate(6deg)    translateY(-10px); } }
+    @keyframes sfloat4 { 0%,100% { transform: rotate(-5deg)   translateY(0);   } 50% { transform: rotate(-5deg)   translateY(6px);   } }
+    .sell-orb {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      width: 80%; height: 70%; border-radius: 999px;
+      background: radial-gradient(ellipse at center, rgba(243,115,56,0.15) 0%, rgba(243,115,56,0) 65%);
+      pointer-events: none; z-index: 0; filter: blur(20px);
+    }
     .cta-glow:hover { box-shadow: 0 0 30px rgba(243,115,56,0.30); transform: scale(1.03); }
     .cta-glow { transition: transform .2s ease, box-shadow .2s ease; }
     .ring-signal:focus { outline: none; border-color: #F37338 !important; box-shadow: 0 0 0 4px rgba(243,115,56,0.15); }
@@ -183,43 +208,63 @@ const PrimaryCTA = ({ children, onClick, type = "button", full = false, classNam
 
 // ------- Hero -------
 const SellHero = ({ onCTA }) =>
-  <section className="relative flex items-center justify-center overflow-hidden text-center" style={{ minHeight: "100svh" }}>
+  <section className="relative flex items-center overflow-hidden" style={{ minHeight: "100svh" }}>
     <div className="absolute inset-0 dot-grid opacity-50 pointer-events-none" />
     <div className="absolute inset-0 hero-glow pointer-events-none" />
-    <div className="relative w-full max-w-[900px] mx-auto px-5 sm:px-8 md:px-12 py-20 sm:py-24 md:py-28">
-      <Reveal>
-        <span className="eyebrow">For Sellers</span>
-        <h1 className="display text-white1 font-bold mt-5 text-[30px] leading-[1.18] sm:text-[40px] sm:leading-[1.13] md:text-[54px] md:leading-[1.07] lg:text-[64px] lg:leading-[1.04]">
-          <span className="block">폐업 전,</span>
-          <span className="block mt-1 md:mt-2">데이터도 자산입니다.</span>
-        </h1>
-      </Reveal>
-      <Reveal delay={160}>
-        <p className="mt-6 md:mt-8 mx-auto max-w-[540px] text-white2 text-[15px] sm:text-[16px] md:text-[18px] leading-[1.7]">
-          팀이 쌓아온 Slack, Notion, Gmail 업무 데이터에는 시장 가치가 있습니다.<br className="hidden sm:block"/>
-          D-return이 법적 처리부터 수익 배분까지 전담합니다.
-        </p>
-      </Reveal>
-      <Reveal delay={280}>
-        <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4">
-          <PrimaryCTA onClick={onCTA}>판매 상담 신청하기 <IconArrowDown width="18" height="18" /></PrimaryCTA>
+    <div className="relative w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
+      <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-center">
+
+        {/* 왼쪽: 텍스트 */}
+        <div>
+          <Reveal>
+            <span className="eyebrow">For Sellers</span>
+            <h1 className="display text-white1 font-bold mt-4 sm:mt-5 lg:mt-6 text-[28px] leading-[1.2] sm:text-[36px] sm:leading-[1.15] md:text-[48px] md:leading-[1.08] lg:text-[58px] lg:leading-[1.05]">
+              <span className="block">폐업 전,</span>
+              <span className="block mt-1 md:mt-2">데이터도 자산입니다.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={160}>
+            <p className="mt-5 md:mt-7 max-w-[520px] text-white2 text-[15px] sm:text-[16px] md:text-[18px] leading-[1.7]">
+              팀이 쌓아온 Slack, Notion, Gmail 업무 데이터에는 시장 가치가 있습니다.
+              D-return이 법적 처리부터 수익 배분까지 전담합니다.
+            </p>
+          </Reveal>
+          <Reveal delay={280}>
+            <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-4">
+              <PrimaryCTA onClick={onCTA}>판매 상담 신청하기 <IconArrowDown width="18" height="18" /></PrimaryCTA>
+            </div>
+          </Reveal>
+          <Reveal delay={400}>
+            <div className="mt-10 md:mt-12 flex items-start gap-0 max-w-[400px]">
+              {["데이터 전달", "비식별화 처리", "수익 정산"].map((label, i) => (
+                <React.Fragment key={label}>
+                  <div className="flex flex-col items-center gap-2 flex-1">
+                    <div className="w-8 h-8 rounded-full bg-signal text-white font-bold text-[12px] flex items-center justify-center font-mono flex-shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <span className="text-[11px] sm:text-[12px] text-mute font-medium text-center leading-tight">{label}</span>
+                  </div>
+                  {i < 2 && <div className="flex-none w-8 sm:w-12 h-px mt-4" style={{ background: "rgba(20,20,19,0.18)" }} />}
+                </React.Fragment>
+              ))}
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
-      <Reveal delay={420}>
-        <div className="mt-14 md:mt-16 flex items-start justify-center gap-0 max-w-[520px] mx-auto">
-          {["데이터 전달", "법적 처리 + 비식별화", "수익 정산"].map((label, i) => (
-            <React.Fragment key={label}>
-              <div className="flex flex-col items-center gap-2.5 flex-1 px-2">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-signal text-white font-bold text-[12px] sm:text-[13px] flex items-center justify-center font-mono flex-shrink-0">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <span className="text-[11px] sm:text-[13px] text-white2 font-medium text-center leading-tight">{label}</span>
-              </div>
-              {i < 2 && <div className="flex-none w-8 sm:w-12 h-px mt-4 sm:mt-[18px]" style={{ background: "rgba(20,20,19,0.18)" }} />}
-            </React.Fragment>
-          ))}
-        </div>
-      </Reveal>
+
+        {/* 오른쪽: 콜라주 카드 */}
+        <Reveal delay={200} className="hidden sm:block">
+          <div className="relative">
+            <div className="sell-collage">
+              <div className="sell-orb" />
+              <div className="card s-slack" ><img src="images/slack-sell.png"  alt="Slack 업무 대화 데이터" /></div>
+              <div className="card s-jira"  ><img src="images/jira-sell.png"   alt="Jira 이슈 트래킹 데이터" /></div>
+              <div className="card s-github"><img src="images/github-sell.png" alt="GitHub PR 및 코드 리뷰 데이터" /></div>
+              <div className="card s-gmail" ><img src="images/gmail-sell.webp" alt="Gmail 업무 이메일 데이터" /></div>
+            </div>
+          </div>
+        </Reveal>
+
+      </div>
     </div>
   </section>;
 
