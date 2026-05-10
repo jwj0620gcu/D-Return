@@ -4,3 +4,5 @@ config.js
 node_modules/
 *.log
 Thumbs.db
+.vercel
+.env*.local
