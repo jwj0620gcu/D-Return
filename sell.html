@@ -1,936 +1,1547 @@
 <!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="theme-color" content="#F37338"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="D-return"/>
-  <meta property="og:title" content="D-return — 폐업 전, 데이터도 자산입니다"/>
-  <meta property="og:description" content="실제 업무 의사결정이 담긴 데이터를, AI 학습 데이터로 사용하세요."/>
-  <meta property="og:type" content="website"/>
-  <title>D-return — 데이터 판매</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#F37338" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="D-return" />
+    <meta
+      property="og:title"
+      content="D-return — 폐업 전, 데이터도 자산입니다"
+    />
+    <meta
+      property="og:description"
+      content="팀이 쌓아온 Slack, Notion, Gmail 데이터를 AI 학습 데이터로 전환해 수익을 회수하세요. 법적 처리 전담."
+    />
+    <meta property="og:type" content="website" />
+    <title>D-return — 데이터 판매</title>
+    <link rel="icon" href="favicon.ico" sizes="32x32"/>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XX3VGRXBT1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XX3VGRXBT1');
-  </script>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink:      "#141413",
-            charcoal: "#ECE7E1",
-            lifted:   "#FFFFFF",
-            field:    "#FEF8F3",
-            border:   "#E8E2DA",
-            border2:  "#D1CDC7",
-            white1:   "#141413",
-            white2:   "#3a3a39",
-            mute:     "#7a7a78",
-            dim:      "#A6A29C",
-            signal:   "#F37338",
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ink: "#141413",
+              charcoal: "#ECE7E1",
+              lifted: "#FFFFFF",
+              field: "#FEF8F3",
+              border: "#E8E2DA",
+              border2: "#D1CDC7",
+              white1: "#141413",
+              white2: "#3a3a39",
+              mute: "#7a7a78",
+              dim: "#A6A29C",
+              signal: "#F37338",
+            },
+            fontFamily: {
+              sans: ['"Noto Sans KR"', "Pretendard", "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', '"SF Mono"', "monospace"],
+            },
+            letterSpacing: { tightd: "-0.02em", up: "0.04em" },
           },
-          fontFamily: {
-            sans: ['"Noto Sans KR"', "Pretendard", "system-ui", "sans-serif"],
-            mono: ['"JetBrains Mono"', '"SF Mono"', "monospace"],
-          },
-          letterSpacing: { tightd: "-0.02em", up: "0.04em" },
         },
-      },
-    };
-  </script>
-
-  <style>
-    html, body { background: #F3F0EE; color: #3a3a39; overflow-x: hidden; }
-    *, *::before, *::after { box-sizing: border-box; }
-    body { font-family: "Noto Sans KR", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-    .display { letter-spacing: -0.02em; }
-    .eyebrow { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #7a7a78; }
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
-    .reveal.is-in { opacity: 1; transform: none; }
-    .dot-grid {
-      background-image: radial-gradient(circle, rgba(20,20,19,0.10) 1px, transparent 1px);
-      background-size: 24px 24px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 30%, transparent 80%);
-    }
-    .hero-glow { background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(243,115,56,0.10) 0%, rgba(243,240,238,0) 70%); }
-    /* Sell hero collage */
-    .sell-collage { position: relative; width: 100%; aspect-ratio: 1 / 1.05; }
-    .sell-collage .card {
-      position: absolute; border-radius: 18px; overflow: hidden;
-      background: #FFFFFF; border: 1px solid rgba(20,20,19,0.06);
-      box-shadow: 0 24px 60px rgba(20,20,19,0.18), 0 4px 12px rgba(20,20,19,0.08);
-    }
-    .sell-collage .card img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-    .sell-collage .card.s-slack  { top: 0%;    left: 3%;   width: 65%; aspect-ratio: 620/512;  transform: rotate(-3deg); z-index: 3; animation: sfloat1 7s   ease-in-out infinite; }
-    .sell-collage .card.s-jira   { top: 42%;   right: 0%;  width: 65%; aspect-ratio: 1126/548; transform: rotate(3.5deg);  z-index: 2; animation: sfloat2 8s   ease-in-out infinite; }
-    .sell-collage .card.s-github { top: 10%;   right: -2%; width: 43%; aspect-ratio: 498/364;  transform: rotate(6deg);  z-index: 4; animation: sfloat3 6.5s ease-in-out infinite; }
-    .sell-collage .card.s-gmail  { bottom: 0%; left: 0%;   width: 46%; aspect-ratio: 3/4;      transform: rotate(-5deg); z-index: 5; animation: sfloat4 7.5s ease-in-out infinite; }
-    @keyframes sfloat1 { 0%,100% { transform: rotate(-3deg)   translateY(0);   } 50% { transform: rotate(-3deg)   translateY(-8px);  } }
-    @keyframes sfloat2 { 0%,100% { transform: rotate(3.5deg)  translateY(0);   } 50% { transform: rotate(3.5deg)  translateY(8px);   } }
-    @keyframes sfloat3 { 0%,100% { transform: rotate(6deg)    translateY(0);   } 50% { transform: rotate(6deg)    translateY(-10px); } }
-    @keyframes sfloat4 { 0%,100% { transform: rotate(-5deg)   translateY(0);   } 50% { transform: rotate(-5deg)   translateY(6px);   } }
-    .sell-orb {
-      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-      width: 80%; height: 70%; border-radius: 999px;
-      background: radial-gradient(ellipse at center, rgba(243,115,56,0.15) 0%, rgba(243,115,56,0) 65%);
-      pointer-events: none; z-index: 0; filter: blur(20px);
-    }
-    .cta-glow:hover { box-shadow: 0 0 30px rgba(243,115,56,0.30); transform: scale(1.03); }
-    .cta-glow { transition: transform .2s ease, box-shadow .2s ease; }
-    .ring-signal:focus { outline: none; border-color: #F37338 !important; box-shadow: 0 0 0 4px rgba(243,115,56,0.15); }
-    .vp-card { transition: border-color .25s ease, transform .25s ease, background .25s ease, box-shadow .25s ease; }
-    .vp-card:hover { border-color: #F37338 !important; background: rgba(243,115,56,0.05); transform: translateY(-2px); box-shadow: rgba(20,20,19,0.06) 0 16px 40px 0; border-radius: 24px; }
-    .step-card { transition: transform .25s ease, box-shadow .25s ease; }
-    .step-card:hover { transform: translateY(-3px); box-shadow: rgba(20,20,19,0.10) 0 20px 48px 0; }
-    .check input:checked + .box { background: #F37338; border-color: #F37338; }
-    .check input:checked + .box svg { display: block; }
-    .check .box svg { display: none; }
-    .dot-val { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
-    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0px 1000px #FDECD8 inset !important;
-      -webkit-text-fill-color: #3a3a39 !important;
-      border-color: #D1CDC7 !important;
-    }
-    * { -webkit-tap-highlight-color: transparent; }
-    button, a { touch-action: manipulation; }
-    @keyframes flowR { from { background-position: -100% 0; } to { background-position: 200% 0; } }
-    @keyframes flowL { from { background-position: 200% 0; } to { background-position: -100% 0; } }
-    .flow-line { height: 2px; border-radius: 999px; position: relative; overflow: hidden; transition: background .3s; }
-    .flow-line-inner { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, #F37338 50%, transparent 100%); background-size: 50% 100%; transition: opacity .3s; }
-    .node-photo { transition: border-color .3s ease, box-shadow .3s ease; }
-    @keyframes fadeSlide { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
-    .article-image { height: clamp(220px, 52vw, 340px); }
-    @media (max-width: 639px) {
-      .hero-section { min-height: auto !important; }
-      .hero-inner { padding-top: 56px !important; padding-bottom: 56px !important; }
-      .article-section { padding: 56px 0 !important; }
-      .article-wrap { padding: 0 20px !important; }
-      .article-head { align-items: flex-start !important; gap: 18px; margin-bottom: 28px !important; }
-      .article-card { border-radius: 16px !important; }
-      .article-body { padding: 20px !important; }
-      .article-title { font-size: 16px !important; }
-      .article-meta { align-items: flex-start !important; gap: 12px; }
-      .node-photo { width: 88px !important; height: 88px !important; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
-      .flow-line-inner { animation: none !important; }
-    }
-  </style>
-
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="config.js"></script>
-  <script src="i18n.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-</head>
-<body style="background-color: rgb(243,240,238); font-family: 'Noto Sans KR'">
-  <div id="root"></div>
-
-  <script type="text/babel" data-presets="react">
-
-const { useEffect, useRef, useState } = React;
-const t = window.t;
-
-// ------- Reveal -------
-const Reveal = ({ children, delay = 0, className = "", as: Tag = "div" }) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { el.classList.add("is-in"); io.disconnect(); }
-    }, { threshold: 0.12 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return <Tag ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>{children}</Tag>;
-};
-
-// ------- CountUp -------
-const easeOutExpo = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-const CountUp = ({ to, suffix = "", duration = 1800, format = (n) => n.toLocaleString("ko-KR") }) => {
-  const ref = useRef(null);
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      const start = performance.now();
-      const tick = (now) => {
-        const t = Math.min(1, (now - start) / duration);
-        setVal(Math.round(easeOutExpo(t) * to));
-        if (t < 1) requestAnimationFrame(tick);
       };
-      requestAnimationFrame(tick);
-    }, { threshold: 0.4 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [to, duration]);
-  return <span ref={ref}>{format(val)}{suffix}</span>;
-};
+    </script>
 
-// ------- Icons -------
-const I = (path) => (props) =>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
-    strokeLinecap="round" strokeLinejoin="round" {...props}>{path}</svg>;
-
-const IconArrowDown   = I(<><path d="M12 5v14"/><path d="m5 12 7 7 7-7"/></>);
-const IconArrowRight  = I(<><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></>);
-const IconShield      = I(<><path d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></>);
-const IconDatabase    = I(<><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/><path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></>);
-const IconCoin        = I(<><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5C9.5 8.1 10.6 7 12 7s2.5 1.1 2.5 2.5S13.4 12 12 12s-2.5 1.1-2.5 2.5S10.6 17 12 17s2.5-1.1 2.5-2.5"/></>);
-const IconClock       = I(<><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></>);
-const IconCheck       = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="#F37338" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="m5 12 5 5 9-12"/></svg>;
-
-// ------- Brand -------
-const Brand = ({ size = 18 }) =>
-  <span className="font-mono font-semibold text-ink tracking-tight" style={{ fontSize: size, letterSpacing: "-0.02em" }}>
-    D<span className="text-signal">-</span>return
-  </span>;
-
-// ------- Nav -------
-const Nav = ({ current = "sell" }) =>
-  <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(243,240,238,0.92)", backdropFilter: "blur(14px)", borderBottom: "1px solid rgba(20,20,19,0.07)" }}>
-    <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 min-h-14 sm:min-h-16 py-2 flex items-center justify-between gap-2 sm:gap-4">
-      <Brand size={17} />
-      <div className="flex items-center gap-0.5 bg-white rounded-[999px] p-1 border border-border shadow-sm">
-        <a href="D-return.html"
-          className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "buy" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
-          {t('nav_buy')}
-        </a>
-        <a href="sell.html"
-          className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "sell" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}>
-          {t('nav_sell')}
-        </a>
-      </div>
-      <div className="flex items-center gap-2">
-        <button onClick={() => window.setLang(window.LANG === 'ko' ? 'en' : 'ko')}
-          className="transition px-2 py-1 rounded-[8px] border border-border hover:border-signal flex items-center gap-1"
-          style={{ fontSize: 18, lineHeight: 1 }}>
-          {window.LANG === 'ko' ? '🇺🇸' : '🇰🇷'}
-        </button>
-        <a href="#sell-request"
-          className="cta-glow hidden sm:inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
-          style={{ letterSpacing: "-0.02em" }}>
-          {t('nav_cta_sell')}
-        </a>
-      </div>
-    </div>
-  </nav>;
-
-// ------- Buttons -------
-const PrimaryCTA = ({ children, onClick, type = "button", full = false, className = "" }) =>
-  <button type={type} onClick={onClick}
-    className={`cta-glow inline-flex items-center justify-center gap-2 rounded-[20px] bg-signal text-white font-semibold whitespace-nowrap
-      ${full ? "w-full py-3.5 sm:py-4 text-[15px] sm:text-[16px]" : "px-6 sm:px-8 py-3 sm:py-3.5 text-[15px] sm:text-[16px]"} ${className}`}
-    style={{ letterSpacing: "-0.02em" }}>
-    {children}
-  </button>;
-
-// ------- Hero -------
-const SellHero = ({ onCTA }) =>
-  <section className="hero-section relative flex items-center overflow-hidden" style={{ minHeight: "100svh" }}>
-    <div className="absolute inset-0 dot-grid opacity-50 pointer-events-none" />
-    <div className="absolute inset-0 hero-glow pointer-events-none" />
-    <div className="hero-inner relative w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
-      <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-center">
-
-        {/* 왼쪽: 텍스트 */}
-        <div>
-          <Reveal>
-            <span className="eyebrow">{t('sell_hero_eyebrow')}</span>
-            <h1 className="display text-white1 font-bold mt-4 sm:mt-5 lg:mt-6 text-[28px] leading-[1.2] sm:text-[36px] sm:leading-[1.15] md:text-[48px] md:leading-[1.08] lg:text-[58px] lg:leading-[1.05]">
-              <span className="block">{t('sell_hero_h1_1')}</span>
-              <span className="block mt-1 md:mt-2">{t('sell_hero_h1_2')}</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={160}>
-            <p className="mt-5 md:mt-7 max-w-[520px] text-white2 text-[14px] sm:text-[15px] md:text-[16px] leading-[1.7]">
-              {t('sell_hero_sub')}
-            </p>
-          </Reveal>
-          <Reveal delay={280}>
-            <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-4">
-              <PrimaryCTA onClick={onCTA}>{t('sell_hero_cta')} <IconArrowDown width="18" height="18" /></PrimaryCTA>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* 오른쪽: 콜라주 카드 */}
-        <Reveal delay={200} className="hidden sm:block">
-          <div className="relative">
-            <div className="sell-collage">
-              <div className="sell-orb" />
-              <div className="card s-slack" ><img src="images/slack-sell.png"  alt="Slack 업무 대화 데이터" /></div>
-              <div className="card s-jira"  ><img src="images/jira-sell.png"   alt="Jira 이슈 트래킹 데이터" /></div>
-              <div className="card s-github"><img src="images/github-sell.png" alt="GitHub PR 및 코드 리뷰 데이터" /></div>
-              <div className="card s-gmail" ><img src="images/gmail-sell.webp" alt="Gmail 업무 이메일 데이터" /></div>
-            </div>
-          </div>
-        </Reveal>
-
-      </div>
-    </div>
-  </section>;
-
-// ------- Marketplace Flow -------
-const FlowArrow = ({ dir, label, active }) => (
-  <div className="flex flex-col items-stretch gap-1.5">
-    <span className="text-[13px] sm:text-[14px] font-semibold text-center whitespace-nowrap leading-tight transition-colors duration-300"
-      style={{ color: active ? "#F37338" : "#7a7a78" }}>
-      {label}
-    </span>
-    <div className="flex items-center gap-1">
-      {dir === "left" && (
-        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" style={{ flexShrink: 0 }}>
-          <path d="M6 0L0 5.5L6 11V0Z" fill={active ? "#F37338" : "#D1CDC7"} style={{ transition: "fill .3s" }} />
-        </svg>
-      )}
-      <div className="flow-line flex-1" style={{ background: active ? "rgba(243,115,56,0.18)" : "rgba(20,20,19,0.09)" }}>
-        <div className="flow-line-inner"
-          style={{
-            animation: `${dir === "right" ? "flowR" : "flowL"} 1.4s linear infinite`,
-            opacity: active ? 1 : 0,
-          }} />
-      </div>
-      {dir === "right" && (
-        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" style={{ flexShrink: 0 }}>
-          <path d="M0 0L6 5.5L0 11V0Z" fill={active ? "#F37338" : "#D1CDC7"} style={{ transition: "fill .3s" }} />
-        </svg>
-      )}
-    </div>
-  </div>
-);
-
-const NodeCard = ({ img, imgPosition = "50% 50%", title, sub, active, onEnter, onLeave }) => (
-  <div className="flex-shrink-0 flex flex-col items-center gap-3 cursor-pointer select-none"
-    onMouseEnter={onEnter} onMouseLeave={onLeave}>
-    <div className="node-photo rounded-full overflow-hidden border-4"
-      role="img" aria-label={title}
-      style={{
-        width: 120, height: 120,
-        borderColor: active ? "#F37338" : "#E8E2DA",
-        boxShadow: active
-          ? "0 0 0 6px rgba(243,115,56,0.12), 0 20px 48px rgba(20,20,19,0.14)"
-          : "0 8px 24px rgba(20,20,19,0.08)",
-        backgroundImage: `url(${img})`,
-        backgroundSize: "cover",
-        backgroundPosition: imgPosition,
-      }}>
-    </div>
-    <div className="text-center">
-      <div className="font-semibold text-[14px] sm:text-[15px] transition-colors duration-300"
-        style={{ color: active ? "#F37338" : "#141413" }}>
-        {title}
-      </div>
-      <div className="text-mute text-[11px] sm:text-[12px] mt-0.5">{sub}</div>
-    </div>
-  </div>
-);
-
-const MarketplaceFlow = () => {
-  const [hovered, setHovered] = useState(null);
-  const leftActive  = hovered === null || hovered === "supply" || hovered === "center";
-  const rightActive = hovered === null || hovered === "demand" || hovered === "center";
-
-  return (
-    <section className="py-14 sm:py-20 md:py-24 lg:py-28 bg-[#F3F0EE]">
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-        <Reveal>
-          <div className="text-center">
-            <span className="eyebrow">{t('flow_eyebrow')}</span>
-            <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
-              {t('flow_h2')}
-            </h2>
-            <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[600px] mx-auto leading-[1.65]">
-              {t('flow_subtitle')}
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <div className="mt-12 md:mt-16 overflow-x-auto pb-4 -mx-2 px-2">
-            <div className="flex items-center justify-between gap-4 md:gap-6 min-w-[580px]">
-
-              {/* 공급사 */}
-              <NodeCard
-                img="images/company.jpg"
-                title={t('flow_supplier_title')}
-                sub={t('flow_supplier_sub')}
-                active={hovered === "supply"}
-                onEnter={() => setHovered("supply")}
-                onLeave={() => setHovered(null)}
-              />
-
-              {/* 왼쪽 화살표 */}
-              <div className="flex-1 flex flex-col gap-3.5 min-w-0">
-                <FlowArrow dir="right" label={t('flow_arrow_raw')} active={leftActive} />
-                <FlowArrow dir="left"  label={t('flow_arrow_revenue')} active={leftActive} />
-              </div>
-
-              {/* D-return 허브 */}
-              <div className="flex-shrink-0 flex flex-col items-center gap-3 cursor-default"
-                onMouseEnter={() => setHovered("center")}
-                onMouseLeave={() => setHovered(null)}>
-                <div className="rounded-full flex items-center justify-center border-2 transition-all duration-300"
-                  style={{
-                    width: 96, height: 96,
-                    background: "#141413",
-                    borderColor: hovered === "center" ? "#F37338" : "rgba(255,255,255,0.12)",
-                    boxShadow: hovered
-                      ? "0 0 40px rgba(243,115,56,0.28), 0 16px 40px rgba(20,20,19,0.22)"
-                      : "0 12px 32px rgba(20,20,19,0.18)",
-                  }}>
-                  <span className="font-mono font-bold leading-none" style={{ fontSize: 17, letterSpacing: "-0.02em", color: "#fff" }}>
-                    D<span style={{ color: "#F37338" }}>-</span>return
-                  </span>
-                </div>
-                <div className="text-center">
-                  <div className="font-mono font-bold text-[13px]" style={{ color: "#F37338" }}>{t('flow_hub_label')}</div>
-                </div>
-              </div>
-
-              {/* 오른쪽 화살표 */}
-              <div className="flex-1 flex flex-col gap-3.5 min-w-0">
-                <FlowArrow dir="right" label={t('flow_arrow_delivery')} active={rightActive} />
-                <FlowArrow dir="left"  label={t('flow_arrow_request')} active={rightActive} />
-              </div>
-
-              {/* 수요사 */}
-              <NodeCard
-                img="images/llm.png"
-                imgPosition="35% 50%"
-                title="AI / LLM"
-                sub={t('flow_buyer_sub')}
-                active={hovered === "demand"}
-                onEnter={() => setHovered("demand")}
-                onLeave={() => setHovered(null)}
-              />
-
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-};
-
-// ------- How It Works -------
-const STEPS = [
-  {
-    step: "01",
-    Icon: IconDatabase,
-    img: "images/data.webp",
-    title: t('how_step1_title'),
-    body: t('how_step1_body'),
-  },
-  {
-    step: "02",
-    Icon: IconShield,
-    img: "images/law.png",
-    title: t('how_step2_title'),
-    body: t('how_step2_body'),
-  },
-  {
-    step: "03",
-    Icon: IconCoin,
-    img: "images/money2.jpg",
-    title: t('how_step3_title'),
-    body: t('how_step3_body'),
-  },
-];
-
-const HowItWorks = () =>
-  <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
-    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-      <Reveal>
-        <span className="eyebrow">{t('how_eyebrow')}</span>
-        <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('how_h2')}</h2>
-        <p className="mt-4 text-white2 text-[15px] md:text-[16px] max-w-[500px] leading-[1.65]">
-          {t('how_sub')}
-        </p>
-      </Reveal>
-      <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 relative">
-        {STEPS.map(({ step, Icon, img, title, body }, i) =>
-          <Reveal key={step} delay={i * 100}>
-            <div className="step-card rounded-[20px] md:rounded-[24px] bg-lifted border border-border p-6 md:p-8 h-full"
-              style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0", position: "relative", overflow: "hidden" }}>
-              {img && <img src={img} alt="" aria-hidden="true" style={{
-                position: "absolute", inset: 0, width: "100%", height: "100%",
-                objectFit: "cover", objectPosition: "center",
-                opacity: 0.25, pointerEvents: "none", userSelect: "none",
-              }} />}
-              <div style={{ position: "relative" }}>
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-11 h-11 rounded-full inline-flex items-center justify-center"
-                    style={{ background: "rgba(243,115,56,0.08)", color: "#F37338" }}>
-                    <Icon width="20" height="20" />
-                  </div>
-                  <span className="font-mono text-[28px] font-bold leading-none" style={{ color: "rgba(243,115,56,0.18)" }}>{step}</span>
-                </div>
-                <h3 className="display text-white1 font-semibold text-[18px] sm:text-[20px] leading-[1.3]">{title}</h3>
-                <p className="mt-3 text-white2 text-[13px] sm:text-[14px] leading-[1.72]">{body}</p>
-              </div>
-            </div>
-          </Reveal>
-        )}
-      </div>
-    </div>
-  </section>;
-
-// ------- Data Types -------
-const DATA_TYPES = [
-  { name: t('dtype_slack_name'),  logo: "images/slack logo2.png",    desc: t('dtype_slack_desc') },
-  { name: t('dtype_notion_name'), logo: "images/notion-logo.png",    desc: t('dtype_notion_desc') },
-  { name: t('dtype_gmail_name'),  logo: "images/gmail-logo.png",     desc: t('dtype_gmail_desc') },
-  { name: t('dtype_drive_name'),  logo: "images/drive-logo.png",     desc: t('dtype_drive_desc'), logoSize: 96 },
-  { name: t('dtype_jira_name'),   logo: "images/jira-logo.png",      desc: t('dtype_jira_desc') },
-  { name: t('dtype_github_name'), logo: "images/github-logo.png",    desc: t('dtype_github_desc') },
-  { name: t('dtype_ms_name'),     logo: "images/microsoft2.png",     desc: t('dtype_ms_desc'), logoSize: 96 },
-  { name: t('dtype_figma_name'),  logo: "images/figma.png",          desc: t('dtype_figma_desc') },
-  { name: t('dtype_miro_name'),   logo: "images/miro.png",           desc: t('dtype_miro_desc') },
-];
-
-const DataTypesSection = () =>
-  <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-[#F3F0EE]">
-    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-      <Reveal>
-        <span className="eyebrow">{t('dtype_eyebrow')}</span>
-        <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('dtype_h2')}</h2>
-        <p className="mt-4 text-white2 text-[15px] md:text-[16px] max-w-[520px] leading-[1.65]">
-          {t('dtype_sub')}
-        </p>
-      </Reveal>
-      <Reveal delay={100}>
-        <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
-          {DATA_TYPES.map(({ name, logo, desc, logoSize = 80 }, i) =>
-            <div key={name} className="vp-card rounded-[14px] bg-lifted border border-border p-3.5 flex items-center gap-3"
-              style={{ boxShadow: "rgba(20,20,19,0.04) 0 8px 24px 0" }}>
-              <img src={logo} alt={name} style={{ width: logoSize, height: logoSize, objectFit: "contain", flexShrink: 0 }} />
-              <div className="flex-1 min-w-0">
-                <div className="text-white1 font-semibold text-[15px] leading-tight">{name}</div>
-                <div className="text-mute text-[13px] mt-1 leading-tight">{desc}</div>
-              </div>
-            </div>
-          )}
-        </div>
-        <p className="mt-8 text-center text-[13px] sm:text-[14px] text-white2">{t('dtype_footer')}</p>
-      </Reveal>
-    </div>
-  </section>;
-
-// ------- Stats -------
-const SELL_STATS = [
-  { value: 5,    suffix: window.LANG === 'ko' ? "일" : " Days",  label: t('stat_sell_1_label'), sub: "Avg. Days" },
-  { value: 30,   suffix: "+",   label: t('stat_sell_2_label'), sub: "Companies" },
-  { value: 100,  suffix: "%",   label: t('stat_sell_3_label'), sub: "Guaranteed" },
-  { value: 96,   suffix: "%",   label: t('stat_sell_4_label'), sub: "Satisfaction" },
-];
-
-const SellStats = () =>
-  <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
-    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-      <Reveal>
-        <span className="eyebrow">{t('stat_sell_eyebrow')}</span>
-        <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('stat_sell_h2')}</h2>
-      </Reveal>
-      <div className="mt-8 md:mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
-        {SELL_STATS.map((s, i) =>
-          <Reveal key={s.label} delay={i * 90}>
-            <div className="rounded-[18px] md:rounded-[24px] bg-lifted border border-border p-5 sm:p-6 md:p-8 lg:p-9 h-full"
-              style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}>
-              <div className="font-extrabold text-[34px] sm:text-[40px] md:text-[52px] lg:text-[64px] leading-[1] display whitespace-nowrap" style={{ color: "#F37338" }}>
-                <CountUp to={s.value} suffix={s.suffix} />
-              </div>
-              <div className="mt-3 md:mt-5 text-[12px] sm:text-[13px] md:text-[14px] text-white2">{s.label}</div>
-              <div className="mt-1.5 font-mono text-[10px] md:text-[11px] uppercase tracking-up text-dim">{s.sub}</div>
-            </div>
-          </Reveal>
-        )}
-      </div>
-    </div>
-  </section>;
-
-// ------- Why Sell -------
-const WHY_SELL = [
-  {
-    Icon: IconCoin,
-    title: t('why_1_title'),
-    body: t('why_1_body'),
-    bg: "images/close_startup.jpeg",
-  },
-  {
-    Icon: IconShield,
-    title: t('why_2_title'),
-    body: t('why_2_body'),
-    bg: "images/법적 리스크.jpg",
-  },
-  {
-    Icon: IconClock,
-    title: t('why_3_title'),
-    body: t('why_3_body'),
-    bg: "images/money2.jpg",
-  },
-];
-
-const WhySellSection = () =>
-  <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-[#F3F0EE]">
-    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-      <Reveal>
-        <span className="eyebrow">{t('why_eyebrow')}</span>
-        <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18] max-w-[600px]">
-          {t('why_h2_pre')}<span className="font-mono">D-return</span>{t('why_h2_post')}
-        </h2>
-      </Reveal>
-      <div className="mt-8 md:mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-        {WHY_SELL.map(({ Icon, title, body, bg }, i) =>
-          <Reveal key={title} delay={i * 110}>
-            <div className="vp-card rounded-[2px] border border-border p-6 md:p-8 lg:p-10 h-full overflow-hidden relative"
-              style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}>
-              {bg && <div style={{ position: "absolute", inset: 0, backgroundImage: `url('${bg}')`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.13, borderRadius: "24px" }} />}
-              <div style={{ position: "relative", zIndex: 1 }}>
-                <div className="w-12 h-12 rounded-full inline-flex items-center justify-center"
-                  style={{ background: "rgba(243,115,56,0.07)", color: "rgba(243,115,56,0.55)" }}>
-                  <Icon width="22" height="22" />
-                </div>
-                <h3 className="display text-white1 font-semibold mt-5 md:mt-7 text-[19px] sm:text-[21px] md:text-[24px] leading-[1.3]">{title}</h3>
-                <p className="mt-3 md:mt-4 text-white2 text-[13px] sm:text-[14px] leading-[1.7]">{body}</p>
-              </div>
-            </div>
-          </Reveal>
-        )}
-      </div>
-    </div>
-  </section>;
-
-// ------- Sell Form -------
-const SITUATIONS   = [t('form_sell_sit_1'), t('form_sell_sit_2'), t('form_sell_sit_3'), t('form_sell_sit_4')];
-
-const SellForm = () => {
-  const [company, setCompany]     = useState("");
-  const [email, setEmail]         = useState("");
-  const [situation, setSituation] = useState("");
-  const [note, setNote]           = useState("");
-  const [emailErr, setEmailErr]   = useState(false);
-  const [done, setDone]           = useState(false);
-  const [loading, setLoading]     = useState(false);
-  const [submitErr, setSubmitErr] = useState("");
-
-  const submit = (e) => {
-    e.preventDefault();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!valid) { setEmailErr(true); return; }
-    setEmailErr(false); setSubmitErr(""); setLoading(true);
-    fetch("/api/airtable-submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ kind: "sell", fields: {
-        "회사명": company,
-        "이메일": email,
-        "현재 상황": situation,
-        "추가 문의": note,
-      }}),
-    })
-      .then(async r => {
-        const data = await r.json().catch(() => ({}));
-        if (!r.ok || data.error) {
-          throw new Error(data.error?.message || data.message || `Airtable request failed (${r.status})`);
+    <style>
+      html,
+      body {
+        background: #f3f0ee;
+        color: #3a3a39;
+      }
+      body {
+        font-family: "Noto Sans KR", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .display {
+        letter-spacing: -0.02em;
+      }
+      .eyebrow {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #7a7a78;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+          transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal.is-in {
+        opacity: 1;
+        transform: none;
+      }
+      .dot-grid {
+        background-image: radial-gradient(
+          circle,
+          rgba(20, 20, 19, 0.1) 1px,
+          transparent 1px
+        );
+        background-size: 24px 24px;
+        mask-image: radial-gradient(
+          ellipse 80% 70% at 50% 30%,
+          black 30%,
+          transparent 80%
+        );
+        -webkit-mask-image: radial-gradient(
+          ellipse 80% 70% at 50% 30%,
+          black 30%,
+          transparent 80%
+        );
+      }
+      .hero-glow {
+        background: radial-gradient(
+          ellipse 70% 45% at 50% 0%,
+          rgba(243, 115, 56, 0.1) 0%,
+          rgba(243, 240, 238, 0) 70%
+        );
+      }
+      /* Sell hero collage */
+      .sell-collage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1.05;
+      }
+      .sell-collage .card {
+        position: absolute;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid rgba(20, 20, 19, 0.06);
+        box-shadow:
+          0 24px 60px rgba(20, 20, 19, 0.18),
+          0 4px 12px rgba(20, 20, 19, 0.08);
+      }
+      .sell-collage .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        display: block;
+      }
+      .sell-collage .card.s-slack {
+        top: 0%;
+        left: 3%;
+        width: 65%;
+        aspect-ratio: 620/512;
+        transform: rotate(-3deg);
+        z-index: 3;
+        animation: sfloat1 7s ease-in-out infinite;
+      }
+      .sell-collage .card.s-jira {
+        top: 42%;
+        right: 0%;
+        width: 65%;
+        aspect-ratio: 1126/548;
+        transform: rotate(3.5deg);
+        z-index: 2;
+        animation: sfloat2 8s ease-in-out infinite;
+      }
+      .sell-collage .card.s-github {
+        top: 10%;
+        right: -2%;
+        width: 43%;
+        aspect-ratio: 498/364;
+        transform: rotate(6deg);
+        z-index: 4;
+        animation: sfloat3 6.5s ease-in-out infinite;
+      }
+      .sell-collage .card.s-gmail {
+        bottom: 0%;
+        left: 0%;
+        width: 46%;
+        aspect-ratio: 3/4;
+        transform: rotate(-5deg);
+        z-index: 5;
+        animation: sfloat4 7.5s ease-in-out infinite;
+      }
+      @keyframes sfloat1 {
+        0%,
+        100% {
+          transform: rotate(-3deg) translateY(0);
         }
-        setDone(true);
-      })
-      .catch(err => {
-        console.error("Airtable 제출 오류:", err);
-        setSubmitErr(t('form_submit_err'));
-      })
-      .finally(() => setLoading(false));
-  };
+        50% {
+          transform: rotate(-3deg) translateY(-8px);
+        }
+      }
+      @keyframes sfloat2 {
+        0%,
+        100% {
+          transform: rotate(3.5deg) translateY(0);
+        }
+        50% {
+          transform: rotate(3.5deg) translateY(8px);
+        }
+      }
+      @keyframes sfloat3 {
+        0%,
+        100% {
+          transform: rotate(6deg) translateY(0);
+        }
+        50% {
+          transform: rotate(6deg) translateY(-10px);
+        }
+      }
+      @keyframes sfloat4 {
+        0%,
+        100% {
+          transform: rotate(-5deg) translateY(0);
+        }
+        50% {
+          transform: rotate(-5deg) translateY(6px);
+        }
+      }
+      .sell-orb {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 70%;
+        border-radius: 999px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(243, 115, 56, 0.15) 0%,
+          rgba(243, 115, 56, 0) 65%
+        );
+        pointer-events: none;
+        z-index: 0;
+        filter: blur(20px);
+      }
+      .cta-glow:hover {
+        box-shadow: 0 0 30px rgba(243, 115, 56, 0.3);
+        transform: scale(1.03);
+      }
+      .cta-glow {
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .ring-signal:focus {
+        outline: none;
+        border-color: #f37338 !important;
+        box-shadow: 0 0 0 4px rgba(243, 115, 56, 0.15);
+      }
+      .vp-card {
+        transition:
+          border-color 0.25s ease,
+          transform 0.25s ease,
+          background 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .vp-card:hover {
+        border-color: #f37338 !important;
+        background: rgba(243, 115, 56, 0.05);
+        transform: translateY(-2px);
+        box-shadow: rgba(20, 20, 19, 0.06) 0 16px 40px 0;
+        border-radius: 24px;
+      }
+      .step-card {
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .step-card:hover {
+        transform: translateY(-3px);
+        box-shadow: rgba(20, 20, 19, 0.1) 0 20px 48px 0;
+      }
+      .check input:checked + .box {
+        background: #f37338;
+        border-color: #f37338;
+      }
+      .check input:checked + .box svg {
+        display: block;
+      }
+      .check .box svg {
+        display: none;
+      }
+      .dot-val {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0px 1000px #fdecd8 inset !important;
+        -webkit-text-fill-color: #3a3a39 !important;
+        border-color: #d1cdc7 !important;
+      }
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+      button,
+      a {
+        touch-action: manipulation;
+      }
+      @keyframes flowR {
+        from {
+          background-position: -100% 0;
+        }
+        to {
+          background-position: 200% 0;
+        }
+      }
+      @keyframes flowL {
+        from {
+          background-position: 200% 0;
+        }
+        to {
+          background-position: -100% 0;
+        }
+      }
+      .flow-line {
+        height: 2px;
+        border-radius: 999px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+      }
+      .flow-line-inner {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          #f37338 50%,
+          transparent 100%
+        );
+        background-size: 50% 100%;
+        transition: opacity 0.3s;
+      }
+      .node-photo {
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal {
+          transition: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .flow-line-inner {
+          animation: none !important;
+        }
+      }
+    </style>
 
-  return (
-    <section id="sell-request" className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-        <Reveal>
-          <div className="text-center">
-            <span className="eyebrow">{t('form_sell_eyebrow')}</span>
-            <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('form_sell_h2')}</h2>
-            <p className="mt-4 md:mt-5 text-white2 text-[14px] sm:text-[15px] md:text-[16px] max-w-[500px] mx-auto leading-[1.65]">
-              {t('form_sell_sub')}
-            </p>
+    <script
+      src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+      integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+      integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+      integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body
+    style="
+      background-color: rgb(243, 240, 238);
+      font-family: &quot;Noto Sans KR&quot;;
+    "
+  >
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react">
+      const { useEffect, useRef, useState } = React;
+
+      // ------- Reveal -------
+      const Reveal = ({
+        children,
+        delay = 0,
+        className = "",
+        as: Tag = "div",
+      }) => {
+        const ref = useRef(null);
+        useEffect(() => {
+          const el = ref.current;
+          if (!el) return;
+          const io = new IntersectionObserver(
+            ([e]) => {
+              if (e.isIntersecting) {
+                el.classList.add("is-in");
+                io.disconnect();
+              }
+            },
+            { threshold: 0.12 },
+          );
+          io.observe(el);
+          return () => io.disconnect();
+        }, []);
+        return (
+          <Tag
+            ref={ref}
+            className={`reveal ${className}`}
+            style={{ transitionDelay: `${delay}ms` }}
+          >
+            {children}
+          </Tag>
+        );
+      };
+
+      // ------- CountUp -------
+      const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+      const CountUp = ({
+        to,
+        suffix = "",
+        duration = 1800,
+        format = (n) => n.toLocaleString("ko-KR"),
+      }) => {
+        const ref = useRef(null);
+        const [val, setVal] = useState(0);
+        useEffect(() => {
+          const el = ref.current;
+          if (!el) return;
+          const io = new IntersectionObserver(
+            ([e]) => {
+              if (!e.isIntersecting) return;
+              io.disconnect();
+              const start = performance.now();
+              const tick = (now) => {
+                const t = Math.min(1, (now - start) / duration);
+                setVal(Math.round(easeOutExpo(t) * to));
+                if (t < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+            },
+            { threshold: 0.4 },
+          );
+          io.observe(el);
+          return () => io.disconnect();
+        }, [to, duration]);
+        return (
+          <span ref={ref}>
+            {format(val)}
+            {suffix}
+          </span>
+        );
+      };
+
+      // ------- Icons -------
+      const I = (path) => (props) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          {...props}
+        >
+          {path}
+        </svg>
+      );
+
+      const IconArrowDown = I(
+        <>
+          <path d="M12 5v14" />
+          <path d="m5 12 7 7 7-7" />
+        </>,
+      );
+      const IconArrowRight = I(
+        <>
+          <path d="M5 12h14" />
+          <path d="m13 5 7 7-7 7" />
+        </>,
+      );
+      const IconShield = I(
+        <>
+          <path d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3z" />
+          <path d="m9 12 2 2 4-4" />
+        </>,
+      );
+      const IconDatabase = I(
+        <>
+          <ellipse cx="12" cy="5" rx="9" ry="3" />
+          <path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5" />
+          <path d="M3 12c0 1.7 4 3 9 3s9-1.3 9-3" />
+        </>,
+      );
+      const IconCoin = I(
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v10M9.5 9.5C9.5 8.1 10.6 7 12 7s2.5 1.1 2.5 2.5S13.4 12 12 12s-2.5 1.1-2.5 2.5S10.6 17 12 17s2.5-1.1 2.5-2.5" />
+        </>,
+      );
+      const IconClock = I(
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 3" />
+        </>,
+      );
+      const IconCheck = (p) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#F37338"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          {...p}
+        >
+          <path d="m5 12 5 5 9-12" />
+        </svg>
+      );
+
+      // ------- Brand -------
+      const Brand = ({ size = 18 }) => (
+        <span
+          className="font-mono font-semibold text-ink tracking-tight"
+          style={{ fontSize: size, letterSpacing: "-0.02em" }}
+        >
+          D<span className="text-signal">-</span>return
+        </span>
+      );
+
+      // ------- Nav -------
+      const Nav = ({ current = "sell" }) => (
+        <nav
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 100,
+            background: "rgba(243,240,238,0.92)",
+            backdropFilter: "blur(14px)",
+            borderBottom: "1px solid rgba(20,20,19,0.07)",
+          }}
+        >
+          <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 h-14 sm:h-16 flex items-center justify-between gap-4">
+            <Brand size={17} />
+            <div className="flex items-center gap-0.5 bg-white rounded-[999px] p-1 border border-border shadow-sm">
+              <a
+                href="D-return.html"
+                className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "buy" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}
+              >
+                데이터 구매
+              </a>
+              <a
+                href="sell.html"
+                className={`px-3 sm:px-4 py-1.5 rounded-[999px] text-[13px] sm:text-[14px] font-medium transition whitespace-nowrap ${current === "sell" ? "bg-signal text-white" : "text-mute hover:text-white2"}`}
+              >
+                데이터 판매
+              </a>
+            </div>
+            <a
+              href="#sell-request"
+              className="cta-glow inline-flex items-center gap-1.5 rounded-[20px] bg-signal text-white font-semibold px-4 sm:px-5 py-2 sm:py-2.5 text-[13px] sm:text-[14px] whitespace-nowrap"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              판매 상담
+            </a>
           </div>
-        </Reveal>
+        </nav>
+      );
 
-        <Reveal delay={140}>
-          <div className="mt-8 md:mt-12 max-w-[600px] mx-auto rounded-[24px] sm:rounded-[32px] md:rounded-[40px] border border-border overflow-hidden bg-lifted"
-            style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}>
-            {done ? (
-              <div className="relative flex flex-col items-center justify-center text-center py-16 md:py-20 px-6 md:px-8" style={{ minHeight: 320 }}>
-                <div style={{ position: "absolute", inset: 0, backgroundImage: "url('images/final-data.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }} />
-                <div style={{ position: "absolute", inset: 0, background: "rgba(243,240,238,0.75)", backdropFilter: "blur(2px)" }} />
-                <div className="relative z-10 flex flex-col items-center">
-                  <div style={{ width: 72, height: 72, borderRadius: "999px", background: "rgba(243,115,56,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F37338" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                      style={{ animation: "draw-check .4s ease .2s both", strokeDasharray: 30, strokeDashoffset: 30 }}>
-                      <path d="m5 12 5 5 9-12"/>
-                    </svg>
+      // ------- Buttons -------
+      const PrimaryCTA = ({
+        children,
+        onClick,
+        type = "button",
+        full = false,
+        className = "",
+      }) => (
+        <button
+          type={type}
+          onClick={onClick}
+          className={`cta-glow inline-flex items-center justify-center gap-2 rounded-[20px] bg-signal text-white font-semibold whitespace-nowrap
+      ${full ? "w-full py-3.5 sm:py-4 text-[15px] sm:text-[16px]" : "px-6 sm:px-8 py-3 sm:py-3.5 text-[15px] sm:text-[16px]"} ${className}`}
+          style={{ letterSpacing: "-0.02em" }}
+        >
+          {children}
+        </button>
+      );
+
+      // ------- Hero -------
+      const SellHero = ({ onCTA }) => (
+        <section
+          className="relative flex items-center overflow-hidden"
+          style={{ minHeight: "100svh" }}
+        >
+          <div className="absolute inset-0 dot-grid opacity-50 pointer-events-none" />
+          <div className="absolute inset-0 hero-glow pointer-events-none" />
+          <div className="relative w-full max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 py-16 sm:py-20 md:py-24 lg:py-28">
+            <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-20 items-center">
+              {/* 왼쪽: 텍스트 */}
+              <div>
+                <Reveal>
+                  <span className="eyebrow">For Sellers</span>
+                  <h1 className="display text-white1 font-bold mt-4 sm:mt-5 lg:mt-6 text-[28px] leading-[1.2] sm:text-[36px] sm:leading-[1.15] md:text-[48px] md:leading-[1.08] lg:text-[58px] lg:leading-[1.05]">
+                    <span className="block">폐업 전,</span>
+                    <span className="block mt-1 md:mt-2">
+                      데이터도 자산입니다.
+                    </span>
+                  </h1>
+                </Reveal>
+                <Reveal delay={160}>
+                  <p className="mt-5 md:mt-7 max-w-[520px] text-white2 text-[14px] sm:text-[15px] md:text-[16px] leading-[1.7]">
+                    팀이 쌓아온 Slack, Notion, Gmail 업무 데이터에는 시장 가치가
+                    있습니다.
+                    <br />
+                    D-return이 법적 처리부터 수익 배분까지 전담합니다.
+                  </p>
+                </Reveal>
+                <Reveal delay={280}>
+                  <div className="mt-8 md:mt-10 flex flex-wrap items-center gap-4">
+                    <PrimaryCTA onClick={onCTA}>
+                      판매 상담 신청하기{" "}
+                      <IconArrowDown width="18" height="18" />
+                    </PrimaryCTA>
                   </div>
-                  <h3 className="display text-white1 font-bold mt-5 text-[22px] sm:text-[24px]"
-                    style={{ animation: "fade-up .4s ease .4s both", opacity: 0 }}>{t('form_sell_ok_h3')}</h3>
-                  <p className="mt-2 text-white2 text-[14px] sm:text-[15px]"
-                    style={{ animation: "fade-up .4s ease .5s both", opacity: 0 }}>
-                    {t('form_sell_ok_pre')}<span className="text-white1 font-medium">{email}</span>{t('form_sell_ok_post')}
+                </Reveal>
+              </div>
+
+              {/* 오른쪽: 콜라주 카드 */}
+              <Reveal delay={200} className="hidden sm:block">
+                <div className="relative">
+                  <div className="sell-collage">
+                    <div className="sell-orb" />
+                    <div className="card s-slack">
+                      <img
+                        src="images/slack-sell.png"
+                        alt="Slack 업무 대화 데이터"
+                      />
+                    </div>
+                    <div className="card s-jira">
+                      <img
+                        src="images/jira-sell.png"
+                        alt="Jira 이슈 트래킹 데이터"
+                      />
+                    </div>
+                    <div className="card s-github">
+                      <img
+                        src="images/github-sell.png"
+                        alt="GitHub PR 및 코드 리뷰 데이터"
+                      />
+                    </div>
+                    <div className="card s-gmail">
+                      <img
+                        src="images/gmail-sell.webp"
+                        alt="Gmail 업무 이메일 데이터"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      );
+
+      // ------- Marketplace Flow -------
+      const FlowArrow = ({ dir, label, active }) => (
+        <div className="flex flex-col items-stretch gap-1.5">
+          <span
+            className="text-[13px] sm:text-[14px] font-semibold text-center whitespace-nowrap leading-tight transition-colors duration-300"
+            style={{ color: active ? "#F37338" : "#7a7a78" }}
+          >
+            {label}
+          </span>
+          <div className="flex items-center gap-1">
+            {dir === "left" && (
+              <svg
+                width="6"
+                height="11"
+                viewBox="0 0 6 11"
+                fill="none"
+                style={{ flexShrink: 0 }}
+              >
+                <path
+                  d="M6 0L0 5.5L6 11V0Z"
+                  fill={active ? "#F37338" : "#D1CDC7"}
+                  style={{ transition: "fill .3s" }}
+                />
+              </svg>
+            )}
+            <div
+              className="flow-line flex-1"
+              style={{
+                background: active
+                  ? "rgba(243,115,56,0.18)"
+                  : "rgba(20,20,19,0.09)",
+              }}
+            >
+              <div
+                className="flow-line-inner"
+                style={{
+                  animation: `${dir === "right" ? "flowR" : "flowL"} 1.4s linear infinite`,
+                  opacity: active ? 1 : 0,
+                }}
+              />
+            </div>
+            {dir === "right" && (
+              <svg
+                width="6"
+                height="11"
+                viewBox="0 0 6 11"
+                fill="none"
+                style={{ flexShrink: 0 }}
+              >
+                <path
+                  d="M0 0L6 5.5L0 11V0Z"
+                  fill={active ? "#F37338" : "#D1CDC7"}
+                  style={{ transition: "fill .3s" }}
+                />
+              </svg>
+            )}
+          </div>
+        </div>
+      );
+
+      const NodeCard = ({
+        img,
+        imgPosition = "50% 50%",
+        title,
+        sub,
+        active,
+        onEnter,
+        onLeave,
+      }) => (
+        <div
+          className="flex-shrink-0 flex flex-col items-center gap-3 cursor-pointer select-none"
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
+        >
+          <div
+            className="node-photo rounded-full overflow-hidden border-4"
+            role="img"
+            aria-label={title}
+            style={{
+              width: 120,
+              height: 120,
+              borderColor: active ? "#F37338" : "#E8E2DA",
+              boxShadow: active
+                ? "0 0 0 6px rgba(243,115,56,0.12), 0 20px 48px rgba(20,20,19,0.14)"
+                : "0 8px 24px rgba(20,20,19,0.08)",
+              backgroundImage: `url(${img})`,
+              backgroundSize: "cover",
+              backgroundPosition: imgPosition,
+            }}
+          ></div>
+          <div className="text-center">
+            <div
+              className="font-semibold text-[14px] sm:text-[15px] transition-colors duration-300"
+              style={{ color: active ? "#F37338" : "#141413" }}
+            >
+              {title}
+            </div>
+            <div className="text-mute text-[11px] sm:text-[12px] mt-0.5">
+              {sub}
+            </div>
+          </div>
+        </div>
+      );
+
+      const MarketplaceFlow = () => {
+        const [hovered, setHovered] = useState(null);
+        const leftActive =
+          hovered === null || hovered === "supply" || hovered === "center";
+        const rightActive =
+          hovered === null || hovered === "demand" || hovered === "center";
+
+        return (
+          <section className="py-14 sm:py-20 md:py-24 lg:py-28 bg-[#F3F0EE]">
+            <div className="max-w-[1280px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+              <Reveal>
+                <div className="text-center">
+                  <span className="eyebrow">Marketplace</span>
+                  <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+                    데이터 마켓플레이스 구조
+                  </h2>
+                  <p className="mt-4 text-white2 text-[14px] sm:text-[15px] max-w-[600px] mx-auto leading-[1.65] whitespace-nowrap">
+                    D-return은 폐업 기업의 데이터와 AI 기업의 수요를 연결하는
+                    전문 데이터 마켓플레이스입니다.
                   </p>
                 </div>
-                <style>{`
+              </Reveal>
+
+              <Reveal delay={120}>
+                <div className="mt-12 md:mt-16 overflow-x-auto pb-4 -mx-2 px-2">
+                  <div className="flex items-center justify-between gap-4 md:gap-6 min-w-[580px]">
+                    {/* 공급사 */}
+                    <NodeCard
+                      img="images/company.jpg"
+                      title="데이터 공급사"
+                      sub="폐업 기업"
+                      active={hovered === "supply"}
+                      onEnter={() => setHovered("supply")}
+                      onLeave={() => setHovered(null)}
+                    />
+
+                    {/* 왼쪽 화살표 */}
+                    <div className="flex-1 flex flex-col gap-3.5 min-w-0">
+                      <FlowArrow
+                        dir="right"
+                        label="원시 데이터 + 권리 제공"
+                        active={leftActive}
+                      />
+                      <FlowArrow
+                        dir="left"
+                        label="수익 정산"
+                        active={leftActive}
+                      />
+                    </div>
+
+                    {/* D-return 허브 */}
+                    <div
+                      className="flex-shrink-0 flex flex-col items-center gap-3 cursor-default"
+                      onMouseEnter={() => setHovered("center")}
+                      onMouseLeave={() => setHovered(null)}
+                    >
+                      <div
+                        className="rounded-full flex items-center justify-center border-2 transition-all duration-300"
+                        style={{
+                          width: 96,
+                          height: 96,
+                          background: "#141413",
+                          borderColor:
+                            hovered === "center"
+                              ? "#F37338"
+                              : "rgba(255,255,255,0.12)",
+                          boxShadow: hovered
+                            ? "0 0 40px rgba(243,115,56,0.28), 0 16px 40px rgba(20,20,19,0.22)"
+                            : "0 12px 32px rgba(20,20,19,0.18)",
+                        }}
+                      >
+                        <span
+                          className="font-mono font-bold leading-none"
+                          style={{
+                            fontSize: 17,
+                            letterSpacing: "-0.02em",
+                            color: "#fff",
+                          }}
+                        >
+                          D<span style={{ color: "#F37338" }}>-</span>return
+                        </span>
+                      </div>
+                      <div className="text-center">
+                        <div
+                          className="font-mono font-bold text-[13px]"
+                          style={{ color: "#F37338" }}
+                        >
+                          마켓플레이스
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 오른쪽 화살표 */}
+                    <div className="flex-1 flex flex-col gap-3.5 min-w-0">
+                      <FlowArrow
+                        dir="right"
+                        label="비식별화 데이터셋 납품"
+                        active={rightActive}
+                      />
+                      <FlowArrow
+                        dir="left"
+                        label="데이터 요청 · 명세 전달"
+                        active={rightActive}
+                      />
+                    </div>
+
+                    {/* 수요사 */}
+                    <NodeCard
+                      img="images/llm.png"
+                      imgPosition="35% 50%"
+                      title="AI / LLM"
+                      sub="데이터 수요사"
+                      active={hovered === "demand"}
+                      onEnter={() => setHovered("demand")}
+                      onLeave={() => setHovered(null)}
+                    />
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        );
+      };
+
+      // ------- How It Works -------
+      const STEPS = [
+        {
+          step: "01",
+          Icon: IconDatabase,
+          img: "images/data.webp",
+          title: "데이터 현황 파악",
+          body: "보유한 데이터 종류와 규모를 파악합니다. 상담 신청 후 영업일 기준 24시간 이내에 담당자가 연락해 현황을 함께 확인합니다.",
+        },
+        {
+          step: "02",
+          Icon: IconShield,
+          img: "images/law.png",
+          title: "법적 처리 + 비식별화",
+          body: "개인정보 동의서 수집, 법적 검토, 4단계 비식별화를 D-return이 전담합니다. 별도 처리 비용은 없으며 개인정보보호법을 완전히 준수합니다.",
+        },
+        {
+          step: "03",
+          Icon: IconCoin,
+          img: "images/money2.jpg",
+          title: "판매 & 수익 정산",
+          body: "데이터가 AI 기업에 판매될 때마다 사전 약정된 비율로 수익이 정산됩니다. 투명한 정기 리포트와 함께 제공됩니다.",
+        },
+      ];
+
+      const HowItWorks = () => (
+        <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+            <Reveal>
+              <span className="eyebrow">How It Works</span>
+              <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+                진행 절차
+              </h2>
+              <p className="mt-4 text-white2 text-[15px] md:text-[16px] max-w-[500px] leading-[1.65]">
+                복잡한 절차 없이 3단계로 완료됩니다.
+                <br />
+                폐업 일정이 촉박해도 영업일 기준 5일 이내 계약을 완료합니다.
+              </p>
+            </Reveal>
+            <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 relative">
+              {STEPS.map(({ step, Icon, img, title, body }, i) => (
+                <Reveal key={step} delay={i * 100}>
+                  <div
+                    className="step-card rounded-[20px] md:rounded-[24px] bg-lifted border border-border p-6 md:p-8 h-full"
+                    style={{
+                      boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0",
+                      position: "relative",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {img && (
+                      <img
+                        src={img}
+                        alt=""
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                          opacity: 0.25,
+                          pointerEvents: "none",
+                          userSelect: "none",
+                        }}
+                      />
+                    )}
+                    <div style={{ position: "relative" }}>
+                      <div className="flex items-start justify-between mb-6">
+                        <div
+                          className="w-11 h-11 rounded-full inline-flex items-center justify-center"
+                          style={{
+                            background: "rgba(243,115,56,0.08)",
+                            color: "#F37338",
+                          }}
+                        >
+                          <Icon width="20" height="20" />
+                        </div>
+                        <span
+                          className="font-mono text-[28px] font-bold leading-none"
+                          style={{ color: "rgba(243,115,56,0.18)" }}
+                        >
+                          {step}
+                        </span>
+                      </div>
+                      <h3 className="display text-white1 font-semibold text-[18px] sm:text-[20px] leading-[1.3]">
+                        {title}
+                      </h3>
+                      <p className="mt-3 text-white2 text-[13px] sm:text-[14px] leading-[1.72]">
+                        {body}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      // ------- Data Types -------
+      const DATA_TYPES = [
+        {
+          name: "Slack 채널 메시지",
+          logo: "images/slack logo2.png",
+          desc: "팀 소통, 의사결정, 업무 흐름",
+        },
+        {
+          name: "Notion 문서 / 위키",
+          logo: "images/notion-logo.png",
+          desc: "기획서, 회의록, SOP 등",
+        },
+        {
+          name: "Gmail 업무 이메일",
+          logo: "images/gmail-logo.png",
+          desc: "고객사·파트너 커뮤니케이션",
+        },
+        {
+          name: "Google Drive 문서",
+          logo: "images/drive-logo.png",
+          desc: "스프레드시트, 보고서, 발표자료",
+          logoSize: 96,
+        },
+        {
+          name: "Jira / Linear 이슈",
+          logo: "images/jira-logo.png",
+          desc: "스프린트, 버그, 태스크",
+        },
+        {
+          name: "GitHub 이슈 / PR",
+          logo: "images/github-logo.png",
+          desc: "코드 리뷰, 기술 토론, 설계 결정",
+        },
+        {
+          name: "Microsoft 365",
+          logo: "images/microsoft2.png",
+          desc: "Teams, Outlook, Word, Excel",
+          logoSize: 96,
+        },
+        {
+          name: "Figma 디자인 파일",
+          logo: "images/figma.png",
+          desc: "설계 의사결정, 피드백, 주석",
+        },
+        {
+          name: "Miro 보드",
+          logo: "images/miro.png",
+          desc: "브레인스토밍, 플로우차트, 회의",
+        },
+      ];
+
+      const DataTypesSection = () => (
+        <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-white">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+            <Reveal>
+              <span className="eyebrow">Data Value</span>
+              <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+                어떤 데이터가 가치 있나요?
+              </h2>
+              <p className="mt-4 text-white2 text-[15px] md:text-[16px] max-w-[520px] leading-[1.65]">
+                업무에서 발생한 모든 텍스트 데이터는 잠재적 자산입니다.
+                <br />
+                특히 의사결정과 전문 지식이 담긴 데이터일수록 높은 가치를
+                가집니다.
+              </p>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
+                {DATA_TYPES.map(({ name, logo, desc, logoSize = 80 }, i) => (
+                  <div
+                    key={name}
+                    className="vp-card rounded-[14px] bg-lifted border border-border p-3.5 flex items-center gap-3"
+                    style={{ boxShadow: "rgba(20,20,19,0.04) 0 8px 24px 0" }}
+                  >
+                    <img
+                      src={logo}
+                      alt={name}
+                      style={{
+                        width: logoSize,
+                        height: logoSize,
+                        objectFit: "contain",
+                        flexShrink: 0,
+                      }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white1 font-semibold text-[15px] leading-tight">
+                        {name}
+                      </div>
+                      <div className="text-mute text-[13px] mt-1 leading-tight">
+                        {desc}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 text-center text-[13px] sm:text-[14px] text-white2">
+                이외에도 업무 의사결정이 담긴 모든 데이터를 수집합니다.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+      );
+
+      // ------- Stats -------
+      const SELL_STATS = [
+        {
+          value: 5,
+          suffix: "일",
+          label: "평균 계약 완료 기간",
+          sub: "Avg. Days",
+        },
+        {
+          value: 30,
+          suffix: "+",
+          label: "데이터 등록 완료 기업",
+          sub: "Companies",
+        },
+        {
+          value: 100,
+          suffix: "%",
+          label: "법적 리스크 처리 보장",
+          sub: "Guaranteed",
+        },
+        {
+          value: 96,
+          suffix: "%",
+          label: "판매 기업 만족도",
+          sub: "Satisfaction",
+        },
+      ];
+
+      const SellStats = () => (
+        <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+            <Reveal>
+              <span className="eyebrow">Numbers</span>
+              <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+                데이터로 증명하는 신뢰
+              </h2>
+            </Reveal>
+            <div className="mt-8 md:mt-14 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
+              {SELL_STATS.map((s, i) => (
+                <Reveal key={s.label} delay={i * 90}>
+                  <div
+                    className="rounded-[18px] md:rounded-[24px] bg-lifted border border-border p-5 sm:p-6 md:p-8 lg:p-9 h-full"
+                    style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}
+                  >
+                    <div
+                      className="font-extrabold text-[34px] sm:text-[40px] md:text-[52px] lg:text-[64px] leading-[1] display"
+                      style={{ color: "#F37338" }}
+                    >
+                      <CountUp to={s.value} suffix={s.suffix} />
+                    </div>
+                    <div className="mt-3 md:mt-5 text-[12px] sm:text-[13px] md:text-[14px] text-white2">
+                      {s.label}
+                    </div>
+                    <div className="mt-1.5 font-mono text-[10px] md:text-[11px] uppercase tracking-up text-dim">
+                      {s.sub}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      // ------- Why Sell -------
+      const WHY_SELL = [
+        {
+          Icon: IconCoin,
+          title: "폐업 비용 상쇄",
+          body: "수년간 축적된 업무 데이터는 폐업 시 사라지는 무형 자산입니다. AI 학습 데이터로 전환해 임금·청산 비용의 일부를 회수할 수 있습니다.",
+          bg: "images/close_startup.jpeg",
+        },
+        {
+          Icon: IconShield,
+          title: "법적 책임 없음",
+          body: "개인정보보호법, 데이터 소유권, 동의서 절차 — 복잡한 법적 처리를 D-return이 전담합니다. 판매자가 직접 처리할 사항은 없습니다.",
+          bg: "images/법적 리스크.jpg",
+        },
+        {
+          Icon: IconClock,
+          title: "빠른 현금화",
+          body: "청산 전 마지막 수익 기회입니다. 임직원 급여, 미지급 채무 정산에 쓸 수 있는 실질적 현금을 확보하세요. 계약 후 30일 이내 선급금 지급이 가능합니다.",
+          bg: "images/money2.jpg",
+        },
+      ];
+
+      const WhySellSection = () => (
+        <section className="py-14 sm:py-20 md:py-24 lg:py-32 bg-white">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+            <Reveal>
+              <span className="eyebrow">Why D-return</span>
+              <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18] max-w-[600px]">
+                왜 <span className="font-mono">D-return</span>에 판매하나요
+              </h2>
+            </Reveal>
+            <div className="mt-8 md:mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+              {WHY_SELL.map(({ Icon, title, body, bg }, i) => (
+                <Reveal key={title} delay={i * 110}>
+                  <div
+                    className="vp-card rounded-[2px] border border-border p-6 md:p-8 lg:p-10 h-full overflow-hidden relative"
+                    style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}
+                  >
+                    {bg && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backgroundImage: `url('${bg}')`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          opacity: 0.13,
+                          borderRadius: "24px",
+                        }}
+                      />
+                    )}
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <div
+                        className="w-12 h-12 rounded-full inline-flex items-center justify-center"
+                        style={{
+                          background: "rgba(243,115,56,0.07)",
+                          color: "rgba(243,115,56,0.55)",
+                        }}
+                      >
+                        <Icon width="22" height="22" />
+                      </div>
+                      <h3 className="display text-white1 font-semibold mt-5 md:mt-7 text-[19px] sm:text-[21px] md:text-[24px] leading-[1.3]">
+                        {title}
+                      </h3>
+                      <p className="mt-3 md:mt-4 text-white2 text-[13px] sm:text-[14px] leading-[1.7]">
+                        {body}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      // ------- Sell Form -------
+      const SITUATIONS = [
+        "폐업 예정 (3개월 내)",
+        "이미 폐업 완료",
+        "매각·인수 진행 중",
+        "기타",
+      ];
+
+      const SellForm = () => {
+        const [company, setCompany] = useState("");
+        const [email, setEmail] = useState("");
+        const [situation, setSituation] = useState("");
+        const [note, setNote] = useState("");
+        const [emailErr, setEmailErr] = useState(false);
+        const [done, setDone] = useState(false);
+        const [loading, setLoading] = useState(false);
+
+        const submit = (e) => {
+          e.preventDefault();
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          if (!valid) {
+            setEmailErr(true);
+            return;
+          }
+          setEmailErr(false);
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+            setDone(true);
+          }, 1400);
+        };
+
+        return (
+          <section
+            id="sell-request"
+            className="py-14 sm:py-20 md:py-24 lg:py-32 bg-charcoal"
+          >
+            <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
+              <Reveal>
+                <div className="text-center">
+                  <span className="eyebrow">Get Started</span>
+                  <h2 className="display text-white1 font-semibold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">
+                    판매 상담 신청
+                  </h2>
+                  <p className="mt-4 md:mt-5 text-white2 text-[14px] sm:text-[15px] md:text-[16px] max-w-[500px] mx-auto leading-[1.65]">
+                    간단한 정보를 남겨주시면 영업일 기준 24시간 이내 담당자가
+                    연락드립니다.
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={140}>
+                <div
+                  className="mt-8 md:mt-12 max-w-[600px] mx-auto rounded-[24px] sm:rounded-[32px] md:rounded-[40px] border border-border overflow-hidden bg-lifted"
+                  style={{ boxShadow: "rgba(20,20,19,0.06) 0 16px 40px 0" }}
+                >
+                  {done ? (
+                    <div
+                      className="relative flex flex-col items-center justify-center text-center py-16 md:py-20 px-6 md:px-8"
+                      style={{ minHeight: 320 }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backgroundImage: "url('images/final-data.jpeg')",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "rgba(243,240,238,0.75)",
+                          backdropFilter: "blur(2px)",
+                        }}
+                      />
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div
+                          style={{
+                            width: 72,
+                            height: 72,
+                            borderRadius: "999px",
+                            background: "rgba(243,115,56,0.15)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <svg
+                            width="30"
+                            height="30"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#F37338"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            style={{
+                              animation: "draw-check .4s ease .2s both",
+                              strokeDasharray: 30,
+                              strokeDashoffset: 30,
+                            }}
+                          >
+                            <path d="m5 12 5 5 9-12" />
+                          </svg>
+                        </div>
+                        <h3
+                          className="display text-white1 font-bold mt-5 text-[22px] sm:text-[24px]"
+                          style={{
+                            animation: "fade-up .4s ease .4s both",
+                            opacity: 0,
+                          }}
+                        >
+                          신청해 주셔서 감사합니다
+                        </h3>
+                        <p
+                          className="mt-2 text-white2 text-[14px] sm:text-[15px]"
+                          style={{
+                            animation: "fade-up .4s ease .5s both",
+                            opacity: 0,
+                          }}
+                        >
+                          <span className="text-white1 font-medium">
+                            {email}
+                          </span>
+                          으로
+                          <br />
+                          영업일 기준 24시간 이내에 연락드리겠습니다.
+                        </p>
+                      </div>
+                      <style>{`
                   @keyframes draw-check { to { stroke-dashoffset: 0; } }
                   @keyframes fade-up { 0% { opacity:0; transform:translateY(10px); } 100% { opacity:1; transform:translateY(0); } }
                 `}</style>
-              </div>
-            ) : (
-              <form onSubmit={submit} className="space-y-5 sm:space-y-6 p-5 sm:p-7 md:p-10 lg:p-12">
-
-                {/* 회사명 */}
-                <div>
-                  <label className="block text-[13px] text-mute mb-2.5">{t('form_sell_company_label')}</label>
-                  <input type="text" value={company} onChange={e => setCompany(e.target.value)}
-                    placeholder={t('form_sell_company_ph')}
-                    className="ring-signal w-full rounded-[999px] bg-field border border-border2 text-white2 px-6 py-3.5 text-[15px] placeholder:text-mute outline-none transition" />
-                </div>
-
-                {/* 이메일 */}
-                <div>
-                  <label className="block text-[13px] text-mute mb-2.5">{t('form_sell_email_label')}</label>
-                  <input type="email" value={email} onChange={e => { setEmail(e.target.value); setEmailErr(false); }}
-                    placeholder={t('form_sell_email_ph')}
-                    className="ring-signal w-full rounded-[999px] bg-field border text-white2 px-6 py-3.5 text-[15px] placeholder:text-mute outline-none transition"
-                    style={{ borderColor: emailErr ? "#F37338" : undefined }} />
-                  {emailErr && (
-                    <div className="mt-2 flex items-center gap-1.5 px-1">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F37338" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                      <span className="text-[12.5px]" style={{ color: "#F37338" }}>{t('form_email_err')}</span>
                     </div>
-                  )}
-                </div>
-
-                {/* 현재 상황 */}
-                <div>
-                  <label className="block text-[13px] text-mute mb-3">{t('form_sell_sit_label')}</label>
-                  <div className="flex flex-wrap gap-2">
-                    {SITUATIONS.map(s =>
-                      <button key={s} type="button" onClick={() => setSituation(s)}
-                        className="px-3.5 py-1.5 rounded-[999px] text-[13px] border transition"
-                        style={{
-                          background: situation === s ? "#F37338" : "transparent",
-                          borderColor: situation === s ? "#F37338" : "#D1CDC7",
-                          color: situation === s ? "#fff" : "#7a7a78",
-                        }}>
-                        {s}
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* 추가 문의 */}
-                <div>
-                  <label className="block text-[13px] text-mute mb-2.5">{t('form_sell_note_label')} <span className="text-dim">{t('form_sell_note_opt')}</span></label>
-                  <textarea rows="3" value={note} onChange={e => setNote(e.target.value)}
-                    placeholder={t('form_sell_note_ph')}
-                    className="ring-signal w-full rounded-[16px] bg-field border border-border2 text-white2 px-5 py-4 text-[15px] placeholder:text-mute outline-none transition resize-none" />
-                </div>
-
-                {submitErr && (
-                  <div className="rounded-[14px] border px-4 py-3 text-[13px] leading-[1.5]"
-                    style={{ borderColor: "rgba(243,115,56,0.35)", background: "rgba(243,115,56,0.08)", color: "#9A3D17" }}>
-                    {submitErr}
-                  </div>
-                )}
-                <PrimaryCTA type="submit" full disabled={loading}>
-                  {loading ? (
-                    <span className="inline-flex items-center gap-2">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-                        style={{ animation: "spin .7s linear infinite" }}>
-                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                      </svg>
-                      {t('form_sell_submitting')}
-                    </span>
                   ) : (
-                    <span className="inline-flex items-center gap-2">{t('form_sell_submit')} <IconArrowRight width="18" height="18" /></span>
+                    <form
+                      onSubmit={submit}
+                      className="space-y-5 sm:space-y-6 p-5 sm:p-7 md:p-10 lg:p-12"
+                    >
+                      {/* 회사명 */}
+                      <div>
+                        <label className="block text-[13px] text-mute mb-2.5">
+                          회사명
+                        </label>
+                        <input
+                          type="text"
+                          value={company}
+                          onChange={(e) => setCompany(e.target.value)}
+                          placeholder="(주)디리턴"
+                          className="ring-signal w-full rounded-[999px] bg-field border border-border2 text-white2 px-6 py-3.5 text-[15px] placeholder:text-mute outline-none transition"
+                        />
+                      </div>
+
+                      {/* 이메일 */}
+                      <div>
+                        1
+                        <label className="block text-[13px] text-mute mb-2.5">
+                          1이메일
+                        </label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            setEmailErr(false);
+                          }}
+                          placeholder="이메일을 입력하세요"
+                          className="ring-signal w-full rounded-[999px] bg-field border text-white2 px-6 py-3.5 text-[15px] placeholder:text-mute outline-none transition"
+                          style={{
+                            borderColor: emailErr ? "#F37338" : undefined,
+                          }}
+                        />
+                        {emailErr && (
+                          <div className="mt-2 flex items-center gap-1.5 px-1">
+                            <svg
+                              width="13"
+                              height="13"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="#F37338"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M12 8v4M12 16h.01" />
+                            </svg>
+                            <span
+                              className="text-[12.5px]"
+                              style={{ color: "#F37338" }}
+                            >
+                              올바른 이메일 주소를 입력해 주세요
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 현재 상황 */}
+                      <div>
+                        <label className="block text-[13px] text-mute mb-3">
+                          현재 상황
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          {SITUATIONS.map((s) => (
+                            <button
+                              key={s}
+                              type="button"
+                              onClick={() => setSituation(s)}
+                              className="px-3.5 py-1.5 rounded-[999px] text-[13px] border transition"
+                              style={{
+                                background:
+                                  situation === s ? "#F37338" : "transparent",
+                                borderColor:
+                                  situation === s ? "#F37338" : "#D1CDC7",
+                                color: situation === s ? "#fff" : "#7a7a78",
+                              }}
+                            >
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 추가 문의 */}
+                      <div>
+                        <label className="block text-[13px] text-mute mb-2.5">
+                          추가 문의사항 <span className="text-dim">(선택)</span>
+                        </label>
+                        <textarea
+                          rows="3"
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                          placeholder="궁금한 점을 편하게 물어봐주세요!"
+                          className="ring-signal w-full rounded-[16px] bg-field border border-border2 text-white2 px-5 py-4 text-[15px] placeholder:text-mute outline-none transition resize-none"
+                        />
+                      </div>
+
+                      <PrimaryCTA type="submit" full disabled={loading}>
+                        {loading ? (
+                          <span className="inline-flex items-center gap-2">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              style={{ animation: "spin .7s linear infinite" }}
+                            >
+                              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                            </svg>
+                            제출 중...
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2">
+                            판매 상담 신청하기{" "}
+                            <IconArrowRight width="18" height="18" />
+                          </span>
+                        )}
+                      </PrimaryCTA>
+                      <style>{`.cta-glow[disabled]{opacity:.75;cursor:not-allowed;transform:none!important;} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
+                      <p className="text-center text-[13px] text-mute">
+                        신청 후 영업일 기준 24시간 이내 연락드립니다.
+                      </p>
+                    </form>
                   )}
-                </PrimaryCTA>
-                <style>{`.cta-glow[disabled]{opacity:.75;cursor:not-allowed;transform:none!important;} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
-                <p className="text-center text-[13px] text-mute">{t('form_sell_footer')}</p>
-              </form>
-            )}
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-};
-
-// ------- Articles -------
-const ARTICLES = window.LANG === 'ko' ? window.ARTICLES_KO : window.ARTICLES_EN;
-
-const ArticlesSection = () => {
-  const [idx, setIdx] = useState(0);
-  const n = ARTICLES.length;
-  const go = (i) => setIdx((i + n) % n);
-
-  useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % n), 4500);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <section className="article-section" style={{ padding: "80px 0", background: "#ECE7E1" }}>
-      <div className="article-wrap" style={{ maxWidth: 680, margin: "0 auto", padding: "0 24px" }}>
-        {/* 헤더 */}
-        <div className="article-head" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36 }}>
-          <div>
-            <span className="eyebrow">{t('articles_eyebrow')}</span>
-            <h2 className="display text-white1 font-bold mt-4 text-[24px] sm:text-[28px] md:text-[36px] leading-[1.18]">{t('articles_h2')}</h2>
-          </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => go(idx - 1)} style={{ width: 40, height: 40, borderRadius: "50%", border: "1px solid #E8E2DA", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="#141413" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </button>
-            <button onClick={() => go(idx + 1)} style={{ width: 40, height: 40, borderRadius: "50%", border: "1px solid #E8E2DA", background: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="#141413" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </button>
-          </div>
-        </div>
-
-        {/* 카드 */}
-        <a key={idx} href={ARTICLES[idx].url} target="_blank" rel="noopener noreferrer"
-          className="article-card"
-          style={{
-            display: "block", textDecoration: "none",
-            borderRadius: 20, overflow: "hidden",
-            border: "1px solid #E8E2DA",
-            boxShadow: "0 8px 32px rgba(20,20,19,0.08)",
-            animation: "fadeSlide .35s ease",
-          }}>
-          {/* 썸네일 */}
-          <div className="article-image" style={{ position: "relative", overflow: "hidden", background: ARTICLES[idx].grad || "#e0dcd8" }}>
-            {ARTICLES[idx].img && (
-              <img src={ARTICLES[idx].img} alt={ARTICLES[idx].title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: ARTICLES[idx].imgPos || "center", display: "block" }} />
-            )}
-            <div style={{
-              position: "absolute", inset: 0,
-              background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%)",
-            }} />
-          </div>
-          {/* 텍스트 */}
-          <div className="article-body" style={{ background: "#fff", padding: "24px 28px 28px" }}>
-            <div className="article-title" style={{ fontSize: 18, fontWeight: 700, color: "#141413", lineHeight: 1.45, letterSpacing: "-0.01em" }}>
-              {ARTICLES[idx].title}
+                </div>
+              </Reveal>
             </div>
-            <div className="article-meta" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16 }}>
-              <span style={{ fontSize: 12, color: "#A6A29C" }}>{ARTICLES[idx].date}</span>
-              <span style={{ fontSize: 12, fontWeight: 600, color: ARTICLES[idx].sourceColor, display: "flex", alignItems: "center", gap: 4 }}>
-                {t('articles_read')}
-                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M8 4l3 2.5L8 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </section>
+        );
+      };
+
+      // ------- Footer -------
+      const Footer = () => (
+        <footer className="border-t border-border py-10 md:py-14">
+          <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6">
+            <Brand size={20} />
+            <div className="flex flex-col md:flex-row md:items-center gap-1.5 md:gap-8 text-[13.5px]">
+              <a
+                href="mailto:jwj4181@gmail.com"
+                className="text-mute hover:text-white2 transition"
+              >
+                jwj4181@gmail.com
+              </a>
+              <span className="text-dim">
+                © 2026 D-return. All rights reserved.
               </span>
             </div>
           </div>
-        </a>
+        </footer>
+      );
 
-        {/* 도트 */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 24 }}>
-          {ARTICLES.map((_, i) => (
-            <button key={i} onClick={() => setIdx(i)} style={{
-              width: i === idx ? 24 : 6, height: 6, borderRadius: 999,
-              background: i === idx ? "#F37338" : "#D1CDC7",
-              border: "none", cursor: "pointer", padding: 0,
-              transition: "width .35s ease, background .35s ease",
-            }} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+      // ------- App -------
+      const App = () => {
+        const goForm = () =>
+          document
+            .getElementById("sell-request")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        return (
+          <React.Fragment>
+            <Nav current="sell" />
+            <SellHero onCTA={goForm} />
+            <MarketplaceFlow />
+            <HowItWorks />
+            <DataTypesSection />
+            <SellStats />
+            <WhySellSection />
+            <SellForm />
+            <Footer />
+          </React.Fragment>
+        );
+      };
 
-// ------- Footer -------
-const Footer = () =>
-  <footer className="border-t border-border bg-[#F3F0EE]">
-    <div className="max-w-[1200px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16">
-
-      {/* 상단 링크 영역 */}
-      <div className="py-10 md:py-14 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
-        <div>
-          <Brand size={18} />
-          <p className="mt-4 text-[12px] text-mute leading-[1.75] max-w-[160px]">
-            {t('footer_desc_sell')}
-          </p>
-        </div>
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-up text-dim mb-4">{t('footer_services')}</div>
-          <div className="flex flex-col gap-2.5">
-            <a href="D-return.html" className="text-[13px] text-mute hover:text-white2 transition">{t('nav_buy')}</a>
-            <a href="sell.html"     className="text-[13px] text-mute hover:text-white2 transition">{t('nav_sell')}</a>
-          </div>
-        </div>
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-up text-dim mb-4">{t('footer_contact')}</div>
-          <div className="flex flex-col gap-2.5">
-            <a href="mailto:jwj4181@gmail.com" className="text-[13px] text-mute hover:text-white2 transition">jwj4181@gmail.com</a>
-            <span className="text-[13px] text-mute">{t('footer_contact_hours')}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 하단 사업자 정보 */}
-      <div className="border-t border-border py-6 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-dim leading-relaxed">
-          <span>{t('footer_biz_name')}</span>
-          <span>{t('footer_biz_ceo')}</span>
-          <span>{t('footer_biz_addr')}</span>
-        </div>
-        <span className="text-[11px] text-dim whitespace-nowrap">{t('footer_copyright')}</span>
-      </div>
-    </div>
-  </footer>;
-
-// ------- App -------
-const App = () => {
-  const goForm = () => document.getElementById("sell-request")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  return (
-    <React.Fragment>
-      <Nav current="sell" />
-      <SellHero onCTA={goForm} />
-      <MarketplaceFlow />
-      <HowItWorks />
-      <DataTypesSection />
-      <SellStats />
-      <WhySellSection />
-      <ArticlesSection />
-      <SellForm />
-      <Footer />
-    </React.Fragment>
-  );
-};
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-  </script>
-</body>
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
 </html>
